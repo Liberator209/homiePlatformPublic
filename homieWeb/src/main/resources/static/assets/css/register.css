@@ -1,0 +1,444 @@
+h2,
+p {
+    margin: 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 40px 20px;
+    border-radius: 5px;
+    width: 400px;
+    max-width: 100%;
+    box-shadow: 0 0 10px 1px rgba(61, 61, 61, 0.19), 0 0 15px 1px rgba(63, 63, 63, 0.23);
+}
+
+.container.complete {
+    visibility: hidden;
+}
+
+.container .header {
+    padding-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.form-control label {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.form-control input {
+    margin-top: 2px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 2px solid blueviolet;
+    font-family: inherit;
+}
+
+.form-control i {
+    position: absolute;
+    top: 29px;
+    right: 10px;
+    font-size: 24px;
+    visibility: hidden;
+}
+
+.form-control input:focus {
+    outline: none;
+}
+
+.form-control.success input {
+    border: 2px solid green;
+}
+
+.form-control.success .fa-smile-o {
+    color: green;
+    visibility: visible;
+}
+
+
+/* Animation code to move form fields */
+@keyframes inputMove {
+    0% {
+        transform: translateX(5px);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+/* Adding the animation properties to the error CSS selector */
+.form-group.error input {
+    border: 2px solid red;
+    border-left: 2px solid red !important;
+    border-right: 2px solid red !important;
+    animation-name: inputMove;
+    animation-duration: .5s;
+    /* animation-iteration-count: 3; */
+}
+
+
+.form-group.error.input-group input {
+    border: 2px solid red;
+    border-right:   0px #8492a6;
+    animation-name: inputMove;
+    animation-duration: .5s;
+    /* animation-iteration-count: 3; */
+}
+
+.custom-control.error label:after {
+    border: 2px solid #ff8800;
+    animation-name: inputMove;
+    animation-duration: .5s;
+    /* animation-iteration-count: 3; */
+}
+
+
+.form-control-label.error .fa-frown-o {
+    color: #ff8800 ;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+}
+
+.container.complete .fa {
+    visibility: hidden;
+}
+
+
+/* .container.error {
+    animation-name: inputMove;
+    animation-duration: .5s;
+} */
+
+.form-group .errorMessage {
+    visibility: hidden;
+    margin: 2px 0 12px 0;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.form-group.error .errorMessage {
+    visibility: visible;
+    color: #ff8800 ;
+}
+
+.my-4 .errorMessage {
+    visibility: hidden;
+    margin: 2px 0 12px 0;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.my-4.error .errorMessage {
+    margin: 2px 0 12px 0;
+    visibility: visible;
+    color: #ff8800;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+}
+
+.complete-modal {
+    visibility: hidden;
+    position: fixed;
+    top: 45%;
+    left: 41%;
+    background-color: #fff;
+    padding: 40px 20px;
+    border-radius: 5px;
+    width: 300px;
+    max-width: 100%;
+    box-shadow: 0 0 10px 1px rgba(61, 61, 61, 0.19), 0 0 15px 1px rgba(63, 63, 63, 0.23);
+    color: green;
+    text-align: center;
+}
+
+.container.complete .complete-modal {
+    visibility: visible;
+}
+
+/* Animation code to move bubbles up */
+@keyframes animCircle {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
+
+.animate-circles {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: -10vh;
+    z-index: -1;
+    visibility: hidden;
+}
+
+.animate-circles.complete {
+    visibility: visible;
+}
+
+
+.animate-circles div {
+    animation: animCircle 7s infinite linear;
+}
+
+.animate-circles div:nth-child(1) {
+    animation-delay: 5s;
+}
+
+.animate-circles div:nth-child(3) {
+    animation-delay: 2s;
+}
+
+.animate-circles div:nth-child(7) {
+    animation-delay: 6s;
+}
+
+.animate-circles div:nth-child(5) {
+    animation-delay: 4s;
+}
+
+.animate-circles div:nth-child(9) {
+    animation-delay: 4s;
+}
+
+.animate-circles div:nth-child(8) {
+    animation-delay: 2s;
+}
+
+.animate-circles .circle {
+    background-color: lawngreen;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.animate-circles .red {
+    background-color: red;
+    height: 30px;
+    width: 30px;
+}
+
+.animate-circles .blue {
+    background-color: blue;
+    height: 20px;
+    width: 20px;
+}
+
+.animate-circles .orange {
+    background-color: orange;
+    height: 40px;
+    width: 40px;
+}
+
+
+.join_box_all_gr{
+    border-radius: 1rem;
+    box-shadow: 0 2px 50px #ebebeb;
+}
+
+
+.page-content_join{
+    margin: 5% auto;
+    max-width: 900px;
+}
+
+.page-content_join input{
+    border-radius: .5rem;
+    border-color: #dfdfdf;
+}
+.page-content_join button{
+    border-radius: .5rem;
+}
+.page-content_join .form-group.error input{
+    border: 2px solid #ff8800;
+    border-left: 2px solid #ff8800!important;
+    border-right: 2px solid #ff8800!important;
+    background: #fffdc6;
+    color: #ff8800;
+}
+
+
+.page-content_join input::placeholder{
+    color: #ababab;
+    font-size: 1.1rem;
+}
+
+.page-content_join .form-group.error input::placeholder{
+    color: #ff8800;
+}
+
+.page-content_join .errorMessage{
+    color: #ff8800;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+}
+
+.page-content_join .form-control-label{
+    font-size: 1.1rem;
+    margin-bottom: .2rem;
+    color: #727272;
+}
+
+.page-content_join .text-muted{
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    word-break: keep-all;
+}
+
+.page-content_join .custom-control-label a{
+    color: #0ba564 !important;
+    font-weight: bold;
+    border-bottom: 1px solid;
+    padding-bottom: 1px;
+}
+
+.page-content_join .custom-control-label{
+    cursor: pointer;
+}
+
+.page-content_join .custom-control-input~.custom-control-label:before{
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    border-color: #ccc;
+}
+
+.page-content_join .custom-control-input~.custom-control-label:after{
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23FFF' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3E%3C/svg%3E");
+    background-position: 4px 4px;
+    background-size: 70% 70%;
+}
+
+.page-content_join .custom-control-input:checked~.custom-control-label:before{
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    background-color: #ff8800;
+    border-color: #ff8800;
+}
+.page-content_join .custom-control-input:checked~.custom-control-label:after{
+    background-position: 4px 4px;
+    background-size: 70% 70%;
+}
+
+.page-content_join .border-radius-l-0{
+    border-radius: 0 .5rem .5rem 0 !important;
+}
+
+.page-content_join .card-footer {
+    border-top: 1px solid #ededed;
+}
+
+.page-content_join .btn-style-02{
+    font-size: 1.1rem;
+    border-color: #dfdfdf;
+    color: #36b37e;
+}
+
+.page-content_join .btn-style-02:hover,
+.page-content_join .btn-style-02:active,
+.page-content_join .btn-style-02:focus{
+    color: #fff;
+}
+
+
+.join_box_all_gr .homie_logo_img{
+    margin: auto;
+    display: block;
+    max-width: 180px;
+    height: auto !important;
+    margin-bottom: 1rem;
+    margin-top: .5rem;
+}
+
+.page-content_join .form-group.error .btn-style-02{
+    border: 2px solid #ff8800;
+    border-left: 0;
+    color: #ff8800;
+}
+
+.page-content_join .custom-control.error label:after{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-position: 3px 3px;
+}
+
+
+/* login */
+
+.login_bn_img{
+    width: 100%;
+    height: auto;
+    border-radius: .5rem;
+    border: 0;
+}
+
+.border-radius-5{    
+    border-radius: .5rem !important; 
+}
+
+/*
+.page-content_login {
+    margin: auto;
+    max-width: 900px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+*/
+
+.btn-style-03{
+    font-size: 1rem;
+    border-bottom: 1px solid;
+    padding-bottom: 0;
+    line-height: 1.2rem;
+    color: #459504;
+}
+
+.card-footer .footer{
+    background-color:#fff;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}

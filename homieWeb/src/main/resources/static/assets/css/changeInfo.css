@@ -1,0 +1,70 @@
+.row.error input {
+    border: 2px solid red;
+    border-left: 2px solid red !important;
+    border-right: 2px solid red !important;
+    animation-name: inputMove;
+    animation-duration: .5s;
+    /* animation-iteration-count: 3; */
+}
+
+
+.row.error.input-group input {
+    border: 2px solid red;
+    border-right:   0px #8492a6;
+    animation-name: inputMove;
+    animation-duration: .5s;
+    /* animation-iteration-count: 3; */
+}
+
+.row.error label:after {
+    border: 2px solid #ff8800;
+    animation-name: inputMove;
+    animation-duration: .5s;
+    /* animation-iteration-count: 3; */
+}
+
+
+.row.error .fa-frown-o {
+    color: #ff8800 ;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+}
+
+.container.complete .fa {
+    visibility: hidden;
+}
+
+
+/* .container.error {
+    animation-name: inputMove;
+    animation-duration: .5s;
+} */
+
+.form-group .errorMessage {
+    visibility: hidden;
+    margin: 2px 0 12px 0;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.form-group.error .errorMessage {
+    visibility: visible;
+    color: #ff8800 ;
+}
+
+.row .errorMessage {
+    visibility: hidden;
+    margin: 2px 0 12px 0;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.row.error .errorMessage {
+    margin: 2px 0 12px 0;
+    visibility: visible;
+    color: #ff8800;
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: -0.5px;
+}

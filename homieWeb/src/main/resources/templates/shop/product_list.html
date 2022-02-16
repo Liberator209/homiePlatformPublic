@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<body class="application application-offset">
+	
+  <!-- Application container -->
+  <div class="container-fluid container-application">
+    <!-- Content -->
+    <div class="main-content position-relative">
+			
+			
+			<!-- NAV S -->
+			<nav th:replace="common/common-nav.html :: common-nav">
+			</nav>
+			<!-- NAV E -->
+    
+      <!-- Page content -->
+      <div class="page-content">
+
+
+        
+        <div class="row">
+
+          <div class="col-lg-5">
+
+            <div class="card">
+
+              <!-- 품종선택 s --
+              <div class="card-body py-3">
+                <div class="d-flex justify-content-between">
+                  <div class="tit_txt_style_01">품종선택</div>
+                  <div class="cultivar_lists">
+                    <span class="cultivar_menu on_menu">감귤</span>
+                    <span class="cultivar_menu">딸기</span>
+                  </div>
+                </div>
+              </div>
+              <div class="border-top"></div>
+              !-- 품종선택 e -->
+
+              <!-- chart s -->
+              <div class="card-body card-body-chart">
+                <div class="chart_series_gr">
+                  <div class="tit_txt_style_01">현재 평균가 안내 <span> 거래단위 : 100g당</span></div>
+                  <div class="tit_series_nb_01"><span>호미상품 : </span><span class="today_series_nb_01"><strong>150</strong>원 <span></span></span></div>
+                  <div class="tit_series_nb_02"><span>오프라인 대형마트 : </span><span class="today_series_nb_02"><strong>200</strong>원 <span></span></span></div>
+                </div>
+                <div id="chart_01"></div>
+                <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+
+                <!-- 안내 s -->
+                <div class="info_txt_gr ml-4 mb-4">
+                  <a class="btn btn_info_style_01" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-info-circle pr-1"></i> 현재 가격 정보제공 안내보기
+                  </a>                  
+                  <div class="collapse" id="collapseExample">
+                  <div class="info_txt_in">
+                    <p>본 자료는 출처(서울시농수산식품공사, 제주특별자치도 감귤출하협회) 자료 가공 및 업로드 문제로 실제 시장 가격과 차이가 발생할 수 있습니다.</p>
+                    <p>출하자, 산지 및 품종에 따라 실제 거래가격과 차이가 날 수 있으며, 일부 품목의 경우 계절 및 품종별 요인에 의해 실제 중량과 차이가 날 수 있습니다.</p>
+                  </div>
+                </div>
+                <!-- 안내 e -->
+                  
+                </div>
+              </div>
+               <!-- chart e -->
+            </div>
+           
+
+        </div>
+
+
+          <div class="col-lg-7">
+
+            <!-- 검색/필터 영역 s -->
+            <div class="card mb-3">
+              <div class="card-header actions-toolbar border-0 py-3">
+                <div class="actions-search" id="actions-search">
+                  <div class="input-group input-group-merge input-group-flush">
+                    <input type="text" id = "keyword" class="form-control form-control-flush ml-4" placeholder="검색어를 입력해주세요.">
+                    <div class="input-group-append">
+                      <a style="cursor:pointer;" class="input-group-text bg-transparent" data-action="search-close" data-target="#actions-search"><i class="fas fa-times pr-2 text-lg"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-between align-items-center">
+  
+                  <div class="col-5">
+                    <h6 class="d-inline-block mb-0">검색된 상품 <span id = "search_count" class="h6 text-info mb-0 ml-1" th:text="${#lists.size(item)}"></span></h6>
+                  </div>
+                  
+                  <div class="col text-right">
+                    <div class="actions">
+                      <a href="#" class="action-item mr-2" data-action="search-open" data-target="#actions-search">
+                        <i class="fas fa-search"></i> <span class="pl-1 search_txt_menu">검색</span>
+                      </a>
+                      <div class="dropdown">
+                        <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-filter"></i> <span class="pl-1 search_txt_menu">필터</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right filter_menu_gr">
+                          <a id = "on_hit" class="dropdown-item" href="#">
+                            품절 임박 상품순
+                          </a>
+                          <a id = "price_ascending" class="dropdown-item" href="#">
+                            낮은 가격순
+                          </a>
+                          <a id = "price_descending" class="dropdown-item" href="#">
+                            높은 가격순
+                          </a>
+                          <a id = "review_count_descending" class="dropdown-item" href="#">
+                            리뷰 많은순
+                          </a>
+                          <a id = "review_score_descending" class="dropdown-item" href="#">
+                            별점순
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 검색/필터 영역 e -->
+
+            <!-- Live 보기 modal s -->
+            <div class="modal fade docs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content v_iframe">
+                  <div class="modal-header">
+                    <div class="modal-title d-flex align-items-center" id="modal-title-change-username">
+                      <div class="tip_live_tit">
+                        <div class="tip_live_icon_pop">LIVE</div>
+                      </div>
+                      <div>
+                        <h6  id="modal_title" class="mb-0"></h6>
+                      </div>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <video controls autoplay muted playsinline id="video-player" class="p-3"></video>
+                </div>
+              </div>
+            </div>
+            <!-- Live 보기 modal e -->
+
+			<div class="product_lists">
+	            <div class="card product_list_item" th:each="item : ${item}" th:attr="data-price= ${item.option}, data-item_no = ${item.id}" th:classappend="(${item.remain} / ${item.quantity} <= 0.3 and ${item.remain} / ${item.quantity} != 0 ? 'hit_item ' +  ${item.level} : '') + (${item.remain} == 0 ? ' sold_out ' : ' ' +  ${item.level})"><!-- 품절임박 hit_item 추가 -->
+								<div class="card-body pt-0 row">
+	                <div class="col-lg-5">
+	                  <div class="ttip_m_01 ttip_list_gr">
+	                    <ul class="list-inline mb-0 mt-1">
+	                      <li th:if="${item.remain} / ${item.quantity} <= 0.3 and ${item.remain} / ${item.quantity} > 0" class="list-inline-item hit_ttip">
+	                        <span class="badge badge-pill badge-soft-danger">품절임박</span>
+	                      </li>
+	                      <li class="list-inline-item re_ttip">
+	                        <span class="badge badge-pill badge-soft-info">최근구매</span>
+	                      </li>
+                        <li class="list-inline-item premium_ttip">
+	                        <span class="badge badge-pill badge-soft-premium">프리미엄</span>
+	                      </li>
+	                    </ul>
+	                  </div>
+	                  <div class="row">
+	                    <h5 class="h5 pt-4 pl-0 mb-1 product_item_tit" th:text="${item.owner} + '농장'"></h5>
+	                    <span class="d-block w-100 farms_map_text" th:text="${item.farm[0].addr}"></span>
+	                  </div>
+	                  <div class="row">
+	                    <div class="">
+	                      <!-- 별점 s -->
+	                      <div th:each="reviews : ${review}">
+	                      <div th:if="${#lists.size(reviews.reviewList) == 0} and ${reviews.item_no} == ${item.id}">
+	                       <i class="reviews" th:attr="data-review-scores= 0, data-review-count = 0">
+	                      	<div class="no_data_gr"><p class="mb-0 fs-0"><!-- i class="far fa-grin-squint pr-1"></i> 등록된 리뷰가 없습니다.-->　</p></div>
+	                       </i>
+	                      </div>
+	                      <div th:if="${#lists.size(reviews.reviewList) != 0}">
+	                      <span class="static-rating static-rating d-block"  th:each="review : ${reviews.reviewList}" th:if="${reviews.item_no} == ${item.id}" th:with="total = ${#aggregates.sum(reviews.reviewList.![score])}, size = ${#lists.size(reviews.reviewList)}" >
+						  <i class="reviews" th:if="${reviewStat.last}" th:attr="data-review-scores=${#numbers.formatDecimal(total / size,0,1)}, data-review-count = ${size}" th:with="average = ${#numbers.formatDecimal(total / size ,0,0)} > ${total} / ${size} ? ${#numbers.formatDecimal(total / size,0,0)}-1 : ${#numbers.formatDecimal(total / size ,0,0)} , emptyStar= ${total} / ${size} > ${average} ? 5-${average}-1 : 5-${average}">	
+						  <i th:if="${reviewStat.last}" th:each = "number : ${#numbers.sequence(1, average)}">
+						  <i class="star fas fa-star voted"></i>
+						  </i>
+				
+						  <i th:if = "${total} / ${size} - ${average} > 0" class="star fas fa-star-half-alt voted"></i>
+											<i th:each="num : ${#numbers.sequence(1,emptyStar,1)}">
+											<i class="star fas fa-star"></i>
+											</i>
+						  <span class="pl-1" th:text=" ${#numbers.formatDecimal(total / size,0,1)} + '점 (' + ${size} + '건)'"></span>
+						  </i>
+							</span>						
+	                      </span>
+	                      </div>
+	                    </div>
+	                      <!-- 별점 e -->
+	                    </div>
+	                  </div>
+					</div>
+	                <div class="col-lg-7 pd_item_mg_top_gr">
+	                  <!-- 01 s -->
+	                  <div class="row sub_box d-flex justify-content-between" th:each="option : ${item.option}">
+	                  	<div class="" th:text="${option.option_name}"></div>
+                      <div class="text-right w-100" th:inline="text"><span class="float-left mt-1" th:with="result=${item.remain / option.option_unit}"><i th:text="'오늘 수확량 : ' + ${result}"></i>개 남음</span>[[${#numbers.formatInteger(option.option_price, 3, 'COMMA')}]]원</div>
+	                  </div>
+	                  <!-- 02 e -->
+	                  <div class="btn_gr">
+	                    <div class="d-flex justify-content-between">
+	                      <button class="text-md btn btn-secondary btn-xs btn-live-01 hover-shadow-lg" th:onclick="toModal([[${item.owner}]], [[${item.farm[0].name}]], [[${item.farm[0].rtsp}]]);" data-toggle="modal" data-target=".docs-example-modal-sm"><i class="fas fa-video mr-1"></i> LIVE 보기</button>
+	                      <button class="text-md btn btn-secondary btn-xs btn-pdview-01 hover-shadow-lg" th:onclick="'location.href=\''+ @{product_view(item_no=${item.id})} + '\''" ><i class="fas fa-shopping-cart mr-1"></i> 구매하기</button>
+	                    </div>
+	                  </div>
+	                </div>
+								</div>
+	            </div>
+			</div>
+
+
+
+            <!-- 상품 더보기 버튼 영역 s -->
+            <div class="mt-4 text-center list_btn_load_gr">
+              <button id="product_list_morebtn" class="btn btn-md btn-neutral rounded-pill shadow">상품 더보기 <span class="fas fa-plus"></span></button>
+            </div>
+            <!-- 상품 더보기 버튼 영역 e -->
+
+          </div>
+
+
+        </div>
+      </div>
+     
+	
+			<!-- Footer S -->
+			<div th:replace="common/common-footer.html :: common-footer">
+			</div>
+			<!-- Footer E -->
+
+    </div>
+  </div>
+	
+	
+	<!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Page JS -->
+  <script src="/assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+  <!-- RTSP JS -->
+  <script src="/assets/js/rtsp.js"></script>
+   <!-- filter JS -->
+  <script src="/assets/js/filter.js"></script>
+  <!-- PRODUCT_LIST_MOREBTN JS -->
+  <script src="/assets/js/product_list_morebtn.js"></script>
+  <!-- graph JS -->
+  <script src="/assets/js/graph.js"></script>
+</body>
+</html>

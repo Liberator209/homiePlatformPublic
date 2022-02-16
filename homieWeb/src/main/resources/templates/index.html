@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<body class="application application-offset" sec:authorize="isAnonymous()">
+	
+	<!-- Application container -->
+	<div class="container-fluid container-application">
+		<!-- Content -->
+		<div class="main-content position-relative">	
+			<!-- NAV S -->
+			<nav th:replace="common/common-nav.html :: common-nav">
+			</nav>
+			<!-- NAV E -->
+
+			<!-- Page content -->
+			<link rel="stylesheet" href="assets/css/main.css" id="stylesheet">
+			<div class="page-content">
+				<div class="main_content_gr">
+
+
+					<div class="main_ct_box_00_gr">
+						<h4>
+							농업인과 소비자를 위한 <strong>스마트 직거래 플랫폼</strong>으로<br>
+							<strong>농업의 미래</strong>를 만들어 가고 있습니다.
+						</h4>
+					</div>
+
+
+					<div class="main_ct_box_01_gr row align-items-center">
+						<div class="col-lg-6 px-0">
+							<img src="assets/img/main/main_01.jpg" alt="" class="img_01">
+						</div>
+						<div class="col-lg-6 px-0">
+							<h4>호미 서비스의 시작</h4>
+							<p class="ct_text">
+								대한민국의 농산물 유통 구조는 비효율성에 있어서 세계적으로 인정된 바 있습니다.
+								호미 서비스는 이러한 비효율적인 유통 구조가 스마트팜과 같은 차세대 기술을 통한 생산성과 효율성의 증대를 추구하기 전에 해결해야 할 근본적인 문제점이라고 인식했습니다.
+							</p>
+						</div>
+					</div>
+					
+
+					<div class="main_ct_box_02_gr">
+						<h4>호미 서비스의 차별화 <span>Provide a Differentiated Service</span></h4>
+						<div class="in_sub_box_gr">
+							<div class="in_sub_box_01 row">
+								<div class="col-lg-6 px-0">
+									<div class="tip_live_icon"><i class="fas fa-video mr-2"></i>LIVE</div>
+									<video controls autoplay muted="muted" preload="metadata" role="application" playsinline="webkit-playsinline" id="video-player"></video>
+										<script>
+											var video = document.getElementById('video-player');
+											var videoSrc = 'https://hls.afarms.ai/hls/6169300e9ba335d31b00b55d-0-1/index.m3u8';
+											//
+											// First check for native browser HLS support
+											//
+											if (Hls.isSupported()) {
+												var hls = new Hls();
+												hls.loadSource(videoSrc);
+												hls.attachMedia(video);
+												//hls.on(hls.Events.MANIFEST_PARSED,playVideo);
+											}
+											else if (video.canPlayType('application/vnd.apple.mpegurl')) {  
+												
+											}
+										</script>
+								</div>
+								<div class="col-lg-6 in-text-box_gr">
+									<h5>실시간 신선도 확인</h5>
+									<!-- p class="ct_text">
+										호미는 여러 농가와 계약을 통해 정해진 엔드 포인트(웹, 모바일 애플리케이션)에 상품을 등록하는 기존의 직거래 플랫폼과는 다릅니다.
+									</p -->
+									<p class="ct_text">
+										
+										호미에서 거래되는 모든 작물은 실시간 IoT 카메라를 통해 신선도를 확인할 수 있습니다.
+									
+									</p>
+								</div>
+							</div>
+							<div class="in_sub_box_02 row">
+								<div class="col-lg-6 px-0"><img src="assets/img/main/main_02_02.jpg" alt="" class="img_02_01"></div>
+								<div class="col-lg-6 in-text-box_gr">
+									<h5>검증된 신선도, 합리적인 가격</h5>
+									<p class="ct_text">
+										농업인들이 처리할 수 있는 수확량만 등록한다고 만사 해결이 되는 것은 아닙니다.
+										호미 서비스는 농작물에 대해 당일 주문, 당일 배송을 원칙으로 합니다. 
+										농업인들의 농산물에 대한 신선도를 검증해 주고 직배송을 통해 중간 유통 구조를 생략하여 소비자에게 합리적인 가격을 선사해 줍니다.
+									</p>
+								</div>
+							</div>				
+							<div class="in_sub_box_03 row">
+								<div class="col-lg-6 px-0"><img src="assets/img/main/main_02_03.jpg" alt="" class="img_02_01"></div>
+								<div class="col-lg-6 in-text-box_gr">
+									<h5>농업인을 위한 차세대 기술</h5>
+									<p class="ct_text">
+										호미는 오로지 스마트 직거래를 위한 판로 개척만을 서비스의 목적으로 두지 않습니다. 
+										농업인을 위한 차세대 기술과 대화의 장을 만들어 주는 것 또한 호미 서비스의 핵심 요소로 생각합니다.
+									</p>
+									<p class="ct_text">
+										대부분의 농업인은 해마다 또는 분기마다 파종할 작물을 선택해야 합니다. 이때 선택하는 작물은 미래에 수확할 때 비교적 괜찮은 가격에 판매할 수 있어야 합니다. 
+										하지만 농작물에 대한 가격은 수요량, 공급량에만 국한된 사항이 아닙니다. 다양한 날씨와 소비자 물가, 심지어는 유가까지도 연계되어 있는 것이 농작물 가격의 흐름입니다.
+									</p>
+									<p class="ct_text">
+										호미 서비스는 농업에 관련한 다양한 데이터를 정부 과제나 지자체 지원 시스템을 통한 국가 데이터 포털과 다양한 실패를 거듭하며 쌓아왔습니다. 
+										이렇게 축적된 데이터를 통해 호미 서비스에서 미래의 농산물 가격에 대한 작물 별 인공지능 예측 서비스를 무료로 제공할 예정입니다.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+
+					<div class="main_box_03_gr">
+						<div class="main_ct_box_03_gr row">
+							<div class="col-lg-6 px-0">
+								<h4>호미 서비스의 믿음, 그리고 지켜야 할 가치 <span>Service Value</span></h4>
+								<div class="in_sub_box_gr_01">
+									<div class="circle1">청정</div>
+									<div class="circle2">안전</div>
+									<div class="circle3">행복</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="in_sub_box_gr_02">
+									<div class="in_sub_box_01">
+										<p class="ct_text">
+											농업인에 의한 원활한 농업 환경 조성을 위해 시장 분석과 현장의 소리를 들어 농업인들의 고충을 해결하는 전문가가 되겠습니다.
+										</p>
+									</div>
+									<div class="in_sub_box_02">
+										<p class="ct_text">
+											농업인을 위한 양질의 정보 교류와 커뮤니티 서비스를 제공하여 합리적 의사결정을 할 수 있도록 든든한 서포터가 되겠습니다.
+										</p>
+									</div>
+									<div class="in_sub_box_03">
+										<p class="ct_text">
+											농업인의 행복을 추구하는 세상을 위해 더불어 사는 사회를 구현하여 스마트 농업인의 성장 목표를 실현하는 플랫폼이 되겠습니다.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="main_ct_box_04_gr row align-items-center">
+						<div class="col-lg-6 px-0">
+							<img src="assets/img/main/main_04_01.jpg" alt="" class="img_01">
+							<img src="assets/img/main/main_04_02.jpg" alt="" class="img_01">
+							<img src="assets/img/main/main_04_03.jpg" alt="" class="img_01">
+						</div>
+						<div class="col-lg-6 px-0 main_sub_box_03_02_gr">
+							<h4>호미 서비스의 목표 <span>Homie Purpose</span></h4>
+							<p class="ct_text">
+								현재 농업인의 평균 수명은 다른 산업군과 비교할 때 굉장히 높습니다. 높은 수명의 산업군은 21세기의 쏟아지는 정보량과 나날이 달라지는 차세대 기술에 대해 서로 공유하는 수단을 찾는데 어렵다는 문제점이 존재합니다.
+							</p>
+							<p class="ct_text">
+								대한민국의 농업도 변화의 시기를 직면하고 있습니다. 청년실업과 고령화, 수도권 인구 편향 등의 사회적인 문제로 청, 장년층의 귀농을 원하는 인구는 증가하고 있습니다. 하지만 이들이 실제로 귀농을 행하지 않는 이유는 위에서 서술한 정보 공유의 문제점이 가장 큽니다.
+							</p>
+							<p class="ct_text">
+								4차 산업혁명에 가장 밀접한 IT 직군의 개발자 커뮤니티는 세계적으로 활발히 운영되고 있으며 이러한 정보 공유는 곧 산업의 발전으로 이루어집니다. 농업은 고되고 힘들기도 하지만 가장 어려운 것은 다양한 문제 사항에 대한 해결 방안이나 매뉴얼이 전무하다는 것으로 
+								이 문제점은 곧 생산량을 통한 소득에 귀결되어 귀농을 망설이는 가장 큰 장벽이 됩니다.
+							</p>
+							<p class="ct_text">
+								호미 서비스는 제주의 농업 생태계를 위한 사업을 진행하며 농업기술원에서 운영하는 감귤 농업인 커뮤니티(네이버 밴드)를 통해 정보를 찾거나 정보를 공유해 주고 싶은 사람들은 충분히 존재한다는 것을 알 수 있었습니다. 
+								활발히 움직이고 검증된 커뮤니티가 존재한다면 이들의 귀농 결정에 분명히 도움이 될 것입니다.
+							</p>
+							<p class="ct_text">
+								이러한 대화의 장은 비단 귀농인에게만 도움을 주지는 않습니다. 기존의 영농인들 또한 새로운 품종이나 농기계, 또는 비료에 대해 충분한 궁금증을 가지고 있을 것이며 이에 대한 해답을 알고 있는 자들 또한 충분히 존재할 것입니다.
+								이처럼 호미 서비스는 ‘자유로운 결합’을 농업인에게도 서비스하는 것을 목표로 하고 있습니다.
+							</p>
+						</div>
+					</div>
+					
+
+
+				</div>
+				<div class="main_visual">
+					<div class="main_visual_bg"></div>
+					<video autoplay="" muted="" loop="" playsinline="">
+					<source src="assets/img/video/v_01.mp4" type="video/mp4">
+					</video>
+				</div>
+			</div>
+		
+			<!-- Footer S -->
+			<div th:replace="common/common-footer.html :: common-footer">
+			</div>
+			<!-- Footer E -->
+
+		</div>
+	</div>
+	
+	
+	<!-- Scripts -->
+	<!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+	<script src="assets/js/purpose.core.js"></script>
+	<!-- Page JS -->
+	<script src="assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+	<!-- Purpose JS -->
+	<script src="assets/js/purpose.js"></script>
+	<!-- Demo JS - remove it when starting your project -->
+	<script src="assets/js/demo.js"></script>
+  
+	
+	
+</body>
+</html>

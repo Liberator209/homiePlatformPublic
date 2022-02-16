@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<link rel="stylesheet" href="/assets/css/register.css" id="stylesheet">
+
+<body class="application application-offset">
+  
+	<!-- div th:replace="info/terms.html :: terms"></div>
+	<div th:replace="info/privacy.html :: privacy"></div -->
+  
+      <!-- Page content -->
+      <div class="page-content page-content_join">
+        
+
+
+        <div class="card join_box_all_gr m-3">
+          <div class="card-head p-4 border-bottom">  
+            <a href="/">
+            	<img alt="HOMIE" src="/assets/img/brand/logo_green.jpg" class="homie_logo_img">
+            </a>
+            <h6 class="h3">회원가입</h6>
+            <p class="text-muted mb-0">호미 플랫폼 서비스는 신선한 먹거리와 <br> 생산량 자율 조절로 인한 농업인과 소비자의 상생을 지향합니다.</p>
+            <div class="mt-3 text-muted">
+              <span>이미 회원 이신가요?</span>
+              <a href="login" class="btn-style-03 text-lg ml-2">로그인 하기</a>
+            </div>
+          </div>
+          <div class="card-body">
+            <form role="form" id="register-form" action="/register" method="POST">
+            <div class="row">
+              <div class="col-lg-5">
+                <div class="form-group">                        
+                  <label class="form-control-label">아이디</label>
+                  <div class="input-group input-group-merge">                     
+                    <input type="email" class="form-control" id="input-id" name="id" placeholder="이메일 입력">
+                  </div>
+                <p class="errorMessage"></p> 
+                </div>
+                <div class="form-group mb-4">
+                  <label class="form-control-label">비밀번호</label>
+                  <div class="input-group input-group-merge">
+                    <input type="password" class="form-control" id="input-password" name="pw" placeholder="********">
+                  </div>
+                <p class="errorMessage"></p> 
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label">비밀번호 확인</label>
+                  <div class="input-group input-group-merge">
+                    <input type="password" class="form-control" id="input-password-confirm" placeholder="********">
+                  </div>
+                    <p class="errorMessage"></p>
+                </div>
+                <!--
+                <div class="form-group mb-4">
+                  <label class="form-control-label">이메일</label>
+                  <div class="input-group input-group-merge">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <input type="email" class="form-control" id="input-email" placeholder="이메일을 입력 해주세요">
+                  </div>
+                  <p class="errorMessage"></p> 
+                </div>
+                -->
+                <p class="errorMessage"></p>
+              </div>                      
+
+
+
+              <div class="col-lg-7">                      
+                <div class="form-group">
+                  <label class="form-control-label">전화번호</label>
+                  <div class="input-group input-group-merge">
+                    <input type="tel" class="form-control" id="input-phone" name="phone" placeholder="휴대폰 번호를 입력하세요" maxlength="13">
+                  </div>
+                  <p class="errorMessage"></p> 
+                </div>                      
+                <div class="form-group mb-4">
+                  <label class="form-control-label">이름</label>
+                  <div class="input-group input-group-merge">
+                    <input type="text" class="form-control" id="input-name" name="name" placeholder="이름을 입력해 주세요">
+                  </div>
+                <p class="errorMessage"></p>
+                </div>
+    
+                <div class="form-group">
+                  <label class="form-control-label">주소</label>
+                  <div class="input-group input-group-merge">                      
+                  <input type="text" class="form-control" id="zip" name="zip" onclick="findAddr()" placeholder="우편번호" /readonly>
+                  <button type="button" id = "zipbtn" class="btn btn-sm btn-outline-success btn-style-02 border-radius-l-0" onclick="findAddr()">
+                    <span class="btn-inner--text">번호찾기</span>
+                  </button>                         
+                  </div>
+                  <div class="input-group input-group-merge mt-2">
+                      <input type="email" class="form-control" id="addr" name="address" onclick="findAddr()" placeholder="주소" /readonly>
+                  </div>
+                  <div class="input-group input-group-merge mt-2">
+                    <input type="text" class="form-control" id="addr_spec" name="address_detail" placeholder="상세 주소 입력">
+                  </div>
+                  <p class="errorMessage"></p>
+                </div>                                                               
+                <div class="my-4">
+                  <div class="custom-control custom-checkbox mb-3">
+                    <input type="checkbox" class="custom-control-input" id="check-terms">
+                    <label class="custom-control-label" for="check-terms" ><a href="#" data-toggle="modal" data-target=".terms-modal-sm">이용약관</a>에 동의합니다.</label> 
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check-privacy">
+                    <label class="custom-control-label" for="check-privacy"><a href="#"  data-toggle="modal" data-target=".privacy-modal-sm">개인정보처리방침</a>에 동의합니다.</label>
+                  </div>
+                  <p class="errorMessage"></p>
+                </div>
+                <div class="mt-4"><button type="submit" id = "register" class="btn btn-success btn-icon w-100">
+                    <span class="btn-inner--text text-lg">작성완료</span>
+                  </button></div>
+                </div>
+              
+              </div>
+            </form>
+          </div>
+          <div class="card-footer text-muted p-4">
+            <!-- Footer S -->
+            <div th:replace="common/common-footer.html :: common-footer">
+            </div>
+            <!-- Footer E -->
+          </div>
+        </div>
+      
+      
+        
+      </div>
+  <!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+  <!-- KAKAO ADDR API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="/assets/js/register.js"></script>
+
+</body>
+
+</html>

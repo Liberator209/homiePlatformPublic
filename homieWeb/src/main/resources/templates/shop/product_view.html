@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<body class="application application-offset">
+	
+  <!-- Application container -->
+  <div class="container-fluid container-application">
+    <!-- Content -->
+    <div class="main-content position-relative">
+      		
+			<!-- NAV S -->
+			<nav th:replace="common/common-nav.html :: common-nav">
+			</nav>
+			<!-- NAV E -->
+
+      <!-- Page content S -->
+      <div class="page-content">
+		  
+		<div class="row">
+			<div class="col-lg-7">
+						
+				<!-- Product images S -->
+				<div th:classappend="${item_info.remain} / ${item_info.quantity} <= 0.3 ? 'card hit_item' +  ${item_info.level} : 'card '+ ${item_info.level}" class='card'>
+							
+							
+							<!-- Product title -->
+							<div class="card-body mb-0 pb-2">
+								<h5 class="h4 product_item_tit" th:inline="text">[[${item_info.item_name}]]</h5>
+								<h6 class="pt-2 pl-1" th:text="${item_info.farm[0].addr}"></h6>
+								<!-- Rating -->
+								<div class="row align-items-center">
+									<div class="col-sm-6"   th:if="${review_count} != 0">
+										<!-- 별점 s -->
+										<span class="static-rating static-rating d-block"  th:with="emptyStar= ${review_total} / ${review_count} > ${review_average} ? 5-${review_average}-1 : 5-${review_average}">
+											<i th:each = "number : ${#numbers.sequence(1, review_average)}">
+											<i class="star fas fa-star voted"></i>
+											</i>
+											<i th:if = "${review_total} / ${review_count} - ${review_average} > 0" class="star fas fa-star-half-alt voted"></i>
+											<i th:each="num : ${#numbers.sequence(1,emptyStar,1)}">
+											<i class="star fas fa-star"></i>
+											</i>
+											<span class="pl-1" th:text=" ${#numbers.formatDecimal(review_average,0,1)} + '점 (' + ${review_count} + '건)'"></span>
+										</span>
+										
+										<!-- 별점 e -->
+									</div>
+
+									
+									<div class="col-sm-6 text-sm-right" th:if="${review_count} == 0">
+											<i class="reviews" th:attr="data-review-scores= 0, data-review-count = 0">
+						                      	<div class="no_data_gr">
+													<p class="mb-0 fs-0 text-left"><!-- i class="far fa-grin-squint pr-1"></i> 등록된 리뷰가 없습니다.-->　</p>
+												</div>
+						                       </i>
+									</div>								
+
+									<div class="col-sm-6 text-sm-right ttip_view_gr">
+
+										<ul class="list-inline mb-0 mt-1">
+											<li class="list-inline-item re_ttip">
+												<span class="badge badge-pill badge-soft-info">최근구매</span>
+											</li>
+											<li class="list-inline-item hit_ttip">
+												<span th:if ="${item_info.remain} / ${item_info.quantity} <= 0.3"class="badge badge-pill badge-soft-danger">품절임박</span>
+											</li>
+											<li class="list-inline-item premium_ttip">
+											<span class="badge badge-pill badge-soft-premium">프리미엄</span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							<div class="card-body pt-0 mt-0 pd_item_mg_top_gr">
+								<!-- 01 s -->
+								<div class="row sub_box" th:each="option : ${item_info.option}">
+									<div class="col-5" th:text="${option.option_name}"></div>
+									<div class="col-7 text-right" th:inline="text"><span class="pr-0" th:with="result=${item_info.remain / option.option_unit}"><i th:text="'오늘 수확량 : ' + ${result}"></i>개 남음</span>
+										<strong class="pl-2">[[${#numbers.formatInteger(option.option_price, 3, 'COMMA')}]]원</strong></div>
+								</div>
+								<!-- 01 e -->
+								<!-- 02 s -->
+								<!--
+								<div class="row sub_box">
+									<div class="col-5">감귤 3kg</div>
+									<div class="col-7 text-right"><span>38개 남음</span> 30,000원</div>
+								</div>
+								-->
+								<!-- 02 e -->
+							</div>
+							
+							
+							
+							
+            <div class="card-body mo-pa-01" th:utext="${item_info.image}">
+
+
+              </div>
+							
+            </div>
+            			<div class="card">
+							<div class="card-body pb-2">
+								<h6 class="txt-tit-01">
+									<div class="tip_live_tit" style="display: inline-block;">
+										<span class="tip_live_icon_pop">LIVE</span>
+									</div>
+									실시간 수확 및 배송 현황
+								</h6>
+							</div>
+							<video controls autoplay muted playsinline id="video-player" class="card-body mo-pa-01 pt-3"></video>
+								<script th:inline="javascript">
+									var video = document.getElementById('video-player');
+									let url =/*[[ ${item_info.farm[0].rtsp} ]]*/;
+									var videoSrc = url + '-2/index.m3u8';
+									//
+									// First check for native browser HLS support
+									//
+									if (Hls.isSupported()) {
+										var hls = new Hls();
+										hls.loadSource(videoSrc);
+										hls.attachMedia(video);
+										//hls.on(hls.Events.MANIFEST_PARSED,playVideo);
+									}
+									else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+										video.src = videoSrc;
+										//
+										// If no native HLS support, check if hls.js is supported
+										//
+									} 
+								</script>
+						</div>
+						
+						
+						<div class="card mb-0">
+							<div class="card-body pb-0">
+								<h6 class="txt-tit-01">농장위치</h6>
+								<dl class="">
+									<h6 class="pt-2" id ="farm_loc" th:text="${item_info.farm[0].addr}"></h6>
+									<div class="text-md pt-2" id ="farm_loc">농장의 위치는 농업인의 개인정보보보호를 위해 간략한 주소로 표시됩니다.</div>
+								</dl>
+							</div>
+							<div class="card-body mo-pa-01">
+								<div id="map" class="farms_map"></div>
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="col-lg-5">
+						
+						
+						<div class="pd_op_btn_gr active" id="">
+							<div class="product_info d-none"><!-- d-none -->
+								<button type="button" class="bd_29NDZ">
+									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="39" height="10" viewBox="0 0 39 10"><defs>
+										<filter id="ArrowDown39x10Gray_svg__b" width="102.6%" height="110%" x="-1.3%" y="-5%" filterUnits="objectBoundingBox">
+										<feOffset dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+										<feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1">
+										</feComposite><feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0">
+										</feColorMatrix></filter><path id="ArrowDown39x10Gray_svg__a" d="M204.351 13.108a2 2 0 011.444 3.728l-.146.056-17.5 6c-.36.123-.748.141-1.115.053l-.183-.053-17.5-6a2 2 0 011.147-3.829l.15.045 16.852 5.778 16.851-5.778z"></path></defs
+										><g fill="none" fill-rule="evenodd" transform="translate(-168 -13)"><use fill="#ededed" xlink:href="#ArrowDown39x10Gray_svg__a"></use><use fill="#000" filter="url(#ArrowDown39x10Gray_svg__b)" xlink:href="#ArrowDown39x10Gray_svg__a"></use></g></svg>
+									<span class="blind">레이어 닫기</span>
+								</button>
+
+								<div class="card box_bd_style_01">
+
+									<!-- 선택하기 s -->
+									<div class="card-body pb-3 mb-0">
+
+										<!-- 옵션선택 -->
+										<div id="option_type_1">
+											<div onclick="" class="b2c_aaa_gr" data-type-seq=""><!--클릭시  추가 -->
+												<div class="b2c_aaa_top">상품 선택</div>
+												<!-- 01 s -->
+												<div th:attr="data-opt-price=${option.option_price} , data-opt-name=${option.option_name}, data-opt-unit=${option.option_unit}" class="b2c_aaa_list" data-opt-remain="${item_info.remain / option.option_unit}" data-opt-type="" data-opt-level="" 
+														data-opt-name="${option.option_name}" data-opt-seq="" data-opt-price="${option.option_price}"  th:each="option : ${item_info.option}">
+													<div class="b2c_aaa_list_txt">
+														<div class="b2c_aaa_list_txt_cell mb-2" th:text="${option.option_name}"></div>
+													</div>
+													<div class="b2c_aaa_list_ea">
+														<div class="b2c_aaa_list_ea_cell">
+																<input type="hidden" name="optSPrice" th:value="${option.option_price}">
+																<div th:text="${#numbers.formatInteger(option.option_price,3,'COMMA')}+ '원'"></div> 
+																<input type="hidden" name="optSQty" value="1789">
+																<span th:with="result=${item_info.remain / option.option_unit}"><strong th:text="${result}"></strong>개 남음</span>
+														</div>
+													</div>
+												</div>
+												<!-- 01 e -->
+												<!-- 02 s -->
+												<!--
+												<div onclick="" class="b2c_aaa_list" data-opt-remain="" data-opt-type="" data-opt-level="" 
+														data-opt-name="" data-opt-seq="" data-opt-pri가e="">
+													<div class="b2c_aaa_list_txt">
+														<div class="b2c_aaa_list_txt_cell">감귤 3kg</div>
+													</div>
+													<div class="b2c_aaa_list_ea">
+														<div class="b2c_aaa_list_ea_cell">
+															<input type="hidden" name="optSPrice" value="1375">
+															<div>35,000원</div>
+															<input type="hidden" name="optSQty" value="1789">
+															<span>50개 남음</span>
+														</div>
+													</div>
+												</div>
+												!-->
+												<!-- 02 e -->
+											</div>
+										</div>
+
+									</div>
+
+									<!-- 선택하기 e -->
+
+									<!-- 선택한 조건 s -->
+									<div class="card-body pt-0 pb-0"><!-- 기본 d-none -->
+										<script language="JavaScript">
+								
+											var option_price;
+											var amount;
+											var selected_list=[];
+											
+											function select(price, name) {
+												option_price = price;
+												document.form.sum.value = option_price;
+											/**
+																								var newItem = document.createElement("div");
+												newItem.setAttribute("class" , "pd_item_gr");
+												newItem.setAttribute("name" , name);
+												
+												var newItem_row = document.createElement("div");
+												newItem_row.setAttribute("class" , "row");
+												var newItem_row_h6 = document.createElement("h6");
+												newItem_row_h6.setAttribute("class", "js_1 col-9 txt-tit-01");
+												newItem_row_h6.setAttribute("value", name);
+												
+												var newItem_row_col = document.createElement("div");
+												newItem_row_col.setAttribute("class", "col-3 text-right");
+												var newItem_row_col_button = document.createElement("button");
+												newItem_row_col_button.setAttribute("type","button");
+												newItem_row_col_button.setAttribute("class","button-close-01");
+												newItem_row_col_button.setAttribute("aria-label","상품삭제");
+												var newItem_row_col_button_i = document.createElement("i")
+												newItem_row_col_button_i.setAttribute("class","fas fa-times-circle btn-close-01");
+												newItem_row_col_button.appendChild(newItem_row_col_button_i);
+												newItem_row_col.appendChild(newItem_row_col_button);
+												newItem_row.appendChild(newItem_row_h6);
+												newItem_row.appendChild(newItem_row_col);
+												newItem.appendChild(newItem_row);
+												
+												document.getElementsByClassName("pd_item_gr")[0].innerHTML += newItem.innerHTML;
+												**/
+												
+												//      console.log(text1)
+//      $(".js_1").html(text1);
+												
+																									          											          												          								
+											}
+											function init () {
+												if(option_price != undefined){
+													option_price = document.form.option_price.value;
+													amount = document.form.amount.value;
+													document.form.sum.value = option_price;
+												
+													change();
+													}
+											}
+
+											function add (count, price, name) {
+												hm= count
+												sum = document.form.sum;
+												hm ++ ;
+												sum = document.getElementsById(name).setAttribute("value", hm * count );
+											}
+
+											function del (count, price, name) {
+												hm = document.form.amount;
+												sum = document.form.sum;
+													if (hm.value > 1) {
+														hm.value -- ;
+														sum.value = parseInt(hm.value) * option_price;
+													}
+											}
+
+											function change () {
+												hm = document.form.amount;
+												sum = document.form.sum;
+
+													if (hm.value < 0) {
+														hm.value = 0;
+													}
+												sum.value = parseInt(hm.value) * option_price;
+											}  
+											//-->
+										</script>
+										<!-- 01 s -->
+										<form role="form" id="order-form" action="/order" method="POST">
+										<input name="item_owner" type="hidden" th:value="${item_info.owner}">
+										<div class="pd_item_gr d-none">
+											<div class="row">
+												<input class="js_1 col-9 txt-tit-01 input_option" name=option_name /readonly>
+												<div class="col-3 text-right">
+													<button type="button" class="button-close-01" aria-label="상품삭제">
+													<i class="fas fa-times-circle btn-close-01"></i>
+												</div>
+											</div>
+											
+												<div class="row">
+													<div>
+														<input type="button" value=" - " onclick="del();" class="pd_btn_style_02">
+														<input type=hidden name="option_price" th:value="${item_info.option[0].option_price}" class="">
+														<input class="pd_btn_style_01" type="text" name="option_amount" value="1" onchange="change();" /readonly>
+														<input type="button" value=" + " onclick="add();" class="pd_btn_style_02">
+													</div>
+													<div class="col-5 text-right">
+														<div class="text-right pd_txt_style_01">
+															<input class="" type="text" name="sum" readonly>원
+														</div>
+													</div>
+												</div>
+											</form>
+											<div class="border-top pt-3 mt-4"></div>
+										</div>
+										<!-- 01 e -->
+
+										<div class="pd_item_mg pb-4 d-none"><!-- 기본 d-none -->
+											<div class="row">
+												<h6 class="col-5 txt-tit-01">총 가격/수량</h6>
+												<div class="col-7 text-right pd_txt_style_01">
+													<input id="total_price" type="text" name="" readonly value="0">원
+													<div class="box_ea" id="total_count"> </div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<!-- 선택한 조건 e -->
+								</div>
+							</div>
+
+							<!-- 구매버튼 s -->
+							<div class="buy_btn">	
+								<button type="button" class="btn btn-danger w-100 text-lg" >구매하기</button>
+								
+							</div>
+							<!-- 구매버튼 e -->
+
+						</div>		
+							
+							
+							
+							
+							
+							
+						<div class="card mt-4">
+              				<div class="card-body">		
+								<div class="">
+									<dl class="row">
+										<h6 class="col-sm-12 txt-tit-01">상품정보</h6>
+										<dt class="col-3"><span class="h6 text-md mb-0">제조사</span></dt>
+										<dd class="col-9"><span class="text-md" id ="farm_owner" th:text="${item_info.owner}"></span></dd>
+										<dt class="col-3"><span class="h6 text-md mb-0" >품종</span></dt>
+										<dd class="col-9"><span class="text-md" th:text="${item_info.farm[0].type}"></span></dd>
+										<dt class="col-3"><span class="h6 text-md mb-0">원산지</span></dt>
+										<dd class="col-9"><span class="text-md"th:text="${item_info.farm[0].addr}"></span></dd>
+										<dt class="col-3"><span class="h6 text-md mb-0">브랜드</span></dt>
+										<dd class="col-9"><span class="text-md">호미(HOMIE)</span></dd>
+									</dl>
+								</div>
+								
+								<div class="pt-4 mt-3 border-top">
+									<dl class="row">
+										<h6 class="col-sm-12 txt-tit-01">배송정보</h6>
+										<dt class="col-3 pr-0"><span class="h6 text-md mb-0">배송방법</span></dt>
+											<dd class="col-9"><span class="text-md">택배</span></dd>
+										<dt class="col-3"><span class="h6 text-md mb-0">배송비</span></dt>
+										<dd class="col-9 d-flex">
+											<span class="text-md" style="text-decoration: line-through;">3,000원</span>
+											<span class="text_style_02 mx-2">0원</span>
+											<span class="badge badge-warning" style="padding: 7px 9px 2px 9px;height: 26px;margin-top: 2px;">오픈 이벤트</span>
+										</dd>
+										<dt class="col-3"><span class="h6 text-md mb-0"></span></dt>
+										<dd class="col-9"><span class="text-md">도서산간지역 추가 4,000원</span></dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+						<img src="/assets/img/v_img/homie_info_img.jpg" class="homie_info_img">
+					</div>
+       			</div>
+				
+				<div class="row">
+					<div class="col-lg-7 pc-pt-4">
+						<div class="card">
+                			<div class="card-body pb-0">		
+								<div class="">
+									<dl class="row">
+										<dt class="col"><h6 class="txt-tit-01 pl-0">상품상세안내</h6></dt>
+
+										
+										
+										
+										
+
+
+
+										<dd class="col text-right">
+											<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+											<script type="text/javascript">
+												$(function(){
+												$("#btn_url").on("click", function(){
+													var urlText = document.getElementById("urlText");
+													urlText.value = window.document.location.href;  // 현재 URL 을 세팅해 줍니다.
+												})
+												})
+												function clip(){
+												var url = '';
+												var textarea = document.createElement("textarea");
+												document.body.appendChild(textarea);
+												url = window.document.location.href;
+												textarea.value = url;
+												textarea.select();
+												document.execCommand("copy");
+												document.body.removeChild(textarea);
+												alert("URL이 복사되었습니다.")
+												console.log(url);
+												}
+											</script>
+											<a class="fas fa-share-alt text-md btn btn-secondary btn-xs" 
+											id="btn_url" onclick="clip(); return false;" > 상품 URL 복사</a>
+										</dd>
+
+										
+
+
+
+
+
+
+									</dl>
+									<div class="pd_board_gr h-min" style="margin: 0 -1.5rem;">
+										<div class="border-top pd_board_in" th:utext="${item_info.spec[0].body}">
+											<p>
+												청정제주에서 나고 자라 조선시대 임금님에게 진상될 정도로 귀했던 만감류 황금향과 하우스감귤
+											</p>
+											<p>
+												매해 인하네를 사랑해주신덕에 3년째 농산물 & 과일분야 1위권입니다! 성원에 보답하기 위해 더 노력하겠습니다 :)
+											</p>
+											<p>
+												제품에 이상이 있을 시 보상이 가능하니 걱정마시고 맛있고 품질 좋은 인하네 상품 많이 구매해주세요 :)  감사합니다!
+											</p>
+											<img src="https://shop-phinf.pstatic.net/20210927_139/1632711442128yetvI_JPEG/KakaoTalk_20210927_110221622_03.jpg?type=w860">
+											<img src="https://shop-phinf.pstatic.net/20210927_221/1632711468643z7evU_JPEG/KakaoTalk_20210927_110221622_04.jpg?type=w860">
+											<img src="https://shop-phinf.pstatic.net/20210902_118/1630561763801UdOU6_JPEG/%EB%B0%94%EA%B5%AC%EB%8B%88.jpg?type=w860">
+											<p>
+												제품에 이상이 있을 시 보상이 가능하니 걱정마시고 맛있고 품질 좋은 인하네 상품 많이 구매해주세요 :)  감사합니다!
+											</p>
+											<img src="https://shop-phinf.pstatic.net/20210927_221/1632711468643z7evU_JPEG/KakaoTalk_20210927_110221622_04.jpg?type=w860">
+										</div>
+									</div>
+									<div class="btn_pd_board_in_01">
+										<button type="button" class="text-md btn btn-md w-100 btn-style-01"> 
+											<span class="btn-inner--text">상품상세 펼처보기</span>
+											<span class="btn-inner--icon">
+												<i class="fas fa-chevron-down pl-2"></i>
+											</span>
+										</button>
+									</div>
+									<div class="btn_pd_board_in_02">
+										<button type="button" class="text-md btn btn-md w-100 btn-style-01"> 
+											<span class="btn-inner--text">상품상세 접기</span>
+											<span class="btn-inner--icon">
+												<i class="fas fa-chevron-up pl-2"></i>
+											</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div id="accordion-1" class="accordion accordion-stacked">
+							<!-- Accordion card 1 -->
+							<div class="card">
+								<div class="card-header py-4" id="heading-1-1" data-toggle="collapse" role="button" data-target="#collapse-1-1" aria-expanded="false" aria-controls="collapse-1-1">
+									<h6 class="mb-0">상품 정보 제공 고시</h6>
+								</div>
+								<div id="collapse-1-1" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion-1">
+									<div class="card-body">
+										<!-- 상품 정보 제공 고시 s -->
+										<div class="pd_info_list_gr">
+											<table>
+												<colgroup>
+													<col>
+													<col>
+												</colgroup>
+												<tbody>
+													<tr>
+														<th>상품번호</th>
+														<td th:text="${item_info.id}"></td>
+													</tr>
+													<tr>
+														<th>상품상태</th>
+														<td>새상품</td>
+													</tr>
+													<tr>
+														<th>부가세 면세여부</th>
+														<td>과세상품</td>
+													</tr>
+													<tr>
+														<th>영수증발행</th>
+														<td>발행가능 - 신용카드 전표, 온라인 현금영수증</td>
+													</tr>
+													<tr>
+														<th>사업자구분</th>
+														<td>사업자 판매자</td>
+													</tr>
+													<tr>
+														<th>원산지</th>
+														<td>제주특별자치도 제주시 조천읍</td>
+													</tr>
+													<tr>
+														<th>품목 또는 명칭</th>
+														<td th:text="${item_info.owner} + '농장'"></td>
+													</tr>
+													<tr>
+														<th>포장단위별 내용물의 용량(중량), 수량, 크기</th>
+														<td>페이지참조</td>
+													</tr>
+													<tr>
+														<th>생산자/수입자</th>
+														<td>(주)에이팜스</td>
+													</tr>
+													<tr>
+														<th>원산지</th>
+														<td>국내산</td>
+													</tr>
+													<tr>
+														<th>제조연월일</th>
+														<td>신선과일로 상시포장발송</td>
+													</tr>
+													<tr>
+														<th>유통기한</th>
+														<td>빠른섭취권장</td>
+													</tr>
+													<tr>
+														<th>관련법상 표시사항</th>
+														<td>해당없음</td>
+													</tr>
+													<tr>
+														<th>상품구성</th>
+														<td>페이지참조</td>
+													</tr>
+													<tr>
+														<th>보관방법 또는 취급방법</th>
+														<td>냉장보관 생식</td>
+													</tr>
+													<tr>
+														<th>식품 등의 표시·광고에 관한 법률에 따른 소비자안전을 위한 주의사항</th>
+														<td>냉장보관</td>
+													</tr>
+													<tr>
+														<th>소비자상담 관련 전화번호</th>
+														<td>02-312-0117</td>
+													</tr>
+													<tr>
+														<th>주문후 예상 배송기간</th>
+														<td>영업일기준2~3일(출발되면 다음날도착) 도서산간지역은 2~3일 추가 될 수 있습니다.</td>
+													</tr>
+													<tr>
+														<th colspan="2" class="colspan_tr">구매, 교환, 반품, 배송, 설치 등과 관련하여 추가비용, 제한조건 등의 특이사항이 있는 경우</th>
+													</tr>
+												</tbody>
+											</table>
+											<p class="pt-4">소비자가 전자상거래등에서 소비자 보호에 관한 법률 제 17조 제1항 또는 제3항에 따라 청약철회를 하고 동법 제 18조 제1항에 따라 청약철회한 물품을 판매자에게 반환하였음에도 불구하고 결제 대금의 환급이 3영업일을 넘게 지연된 경우, 소비자는 전자상거래등에서 소비자보호에 관한 법률 제18조 제2항 및 동법 시행령 제21조 2에 따라 지연일수에 대하여 전상법 시행령으로 정하는 이율을 곱하여 산정한 지연이자(“지연배상금”)를 신청할 수 있습니다.
+											아울러, 교환∙반품∙보증 및 결제대금의 환급신청은 [MY페이지]]에서 하실 수 있으며, 자세한 문의는 afarms@afarms.ai 또는 02-312-0117 번호로 연락하여 주시기 바랍니다.</p>
+										</div>
+										<!-- 상품 정보 제공 고시 e -->
+									</div>
+								</div>
+							</div>
+							<!-- Accordion card 2 -->
+							<div class="card">
+								<div class="card-header py-4" id="heading-1-2" data-toggle="collapse" role="button" data-target="#collapse-1-2" aria-expanded="false" aria-controls="collapse-1-2">
+									<h6 class="mb-0">교환/반품 안내</h6>
+								</div>
+								<div id="collapse-1-2" class="collapse" aria-labelledby="heading-1-2" data-parent="#accordion-1">
+									<div class="card-body">
+										<!-- 교환/반품 안내 s -->
+										<div class="pd_info_list_gr">
+											<table>
+												<colgroup>
+													<col>
+													<col>
+												</colgroup>
+													<tbody>
+														<tr>
+															<th>반품배송비</th>
+															<td>반품/교환 배송비 무료(착불)</td>
+														</tr>
+														<tr>
+															<th>보내실곳</th>
+															<td>우)63278 제주특별자치도 제주시 건입동 산지로 25 / 3F</td>
+														</tr>
+												</tbody>
+											</table>
+											<h4 class="h6 mt-4">반품교환 산정기준</h4>
+											<ul class="claim_dtl_ulist">
+												<li>
+													주문하신 상품은 구매 완료 시 바로 수확이 이루어져 고객의 변심으로 인한 취소는 할 수 없습니다.
+													하지만 상품의 변질 상태에 따라 상품 등이 공급된 날로부터 7일 이내에 교환/반품을 신청하실 수 있습니다. 
+													신청 시 다음의 각 내용에 해당하는 경우에는 교환/반품 신청이 받아들여지지 않을 수 있습니다.
+													<ul class="claim_dtl_olist">
+														<li class="lst1">소비자의 책임 있는 사유로 상품 등이 멸실/훼손된 경우(단지 확인을 위한 포장 훼손 제외)</li>        
+														<li class="lst2">소비자의 사용/소비에 의해 상품 등의 가치가 현저히 감소한 경우</li>        
+														<li class="lst3">시간의 경과에 의해 재판매가 곤란할 정도로 상품 등의 가치가 현저히 감소한 경우</li>        
+														<li class="lst4">복제가 가능한 상품 등의 포장을 훼손한 경우</li>        
+														<li class="lst5">판매/생산방식의 특성상, 교환/반품 시 판매자 에게 회복할 수 없는 손해가 발생하는 경우 (주문접수 후 개별생산, 맞품 제작 등)</li>
+													</ul>
+												</li>
+												<li>통신판매중개자인 에이팜스은 교환/반품에 따른 판매자의 책임을 부담하지 않습니다.</li>
+											</ul>
+
+											<h4 class="h6">상품 하자문의 및 기타 기준사항</h4>
+											<ul class="claim_dtl_ulist">
+												<li>사용 중 발생한 하자의 환불/교환/수리 등은 '공정거래위원회 소비자분쟁해결기준'에 준하여 처리됩니다.<br>그 절차와 내용은 제조사/판매자의 책임으로 진행되오나, 에이팜스로 먼저 문의하여 주십시오.</li>
+												<li>통신판매중개자인 에이팜스은 판매자/제조사의 과실로 인한 손해배상책임을 지지 않습니다.</li>
+												<li>미성년자가 법정대리인의 동의 없이 구매계약을 체결한 경우, 미성년자와 법정대리인은 구매계약을 취소할 수 있습니다.</li>
+											</ul>
+										</div>         
+										<!-- 교환/반품 안내 e -->
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+							<!-- 리뷰가 없을 경우 s -->
+							<div th:if = "${review} == null" class="card mt-4">
+								<div class="review_off card-body">
+										<div class="no_data_gr">
+											<p class="mb-0"><i class="far fa-grin-squint pr-1"></i> 등록된 리뷰가 없습니다.</p>
+										</div>
+								</div>
+							</div>
+							<!-- 리뷰가 없을 경우 e -->
+
+
+							<!-- 리뷰가 있을 경우 s -->
+							<div th:if = "${review} != null" class="card mt-4">
+                	<div class="review_on card-body">
+								
+								
+								<div class="review_gr">
+
+									<!-- 01 s -->
+									<div th:each= "review : ${review.reviewList} " class="review_in_gr review_board_gr h-min_v2">
+									 <div class="pt-4 mt-3 border-top review_board_in">
+										<div class="row">
+											<div class="col-sm-6" th:with="reviewer_name = ${#strings.length(review.reviewer)}">
+												<h5 class="text-sm h5">
+													<strong th:text="${#strings.substring(review.reviewer,0,reviewer_name-3)} + '***'"> </strong>
+													<span class="text-time" th:text="${#dates.format(review.date,'yyyy-MM-dd HH:mm')}">
+													</span>
+												</h5>
+												<h6 class="text-sm h6" th:text="'구매상품 :' + ${review.ordered_item}" ></h6>
+											</div>
+											<div class="col-sm-6 text-sm-right">
+												<!-- 별점 s -->
+												<span class="static-rating static-rating d-block" th:with="rounded = ${#numbers.formatDecimal(review.score,0,0)} > ${review.score} ? ${#numbers.formatDecimal(review.score,0,0)}-1 : ${#numbers.formatDecimal(review.score,0,0)}, emptyStar= ${review.score} > ${rounded} ? 5-${rounded}-1 : 5-${rounded}"> 
+													<i th:each = "number : ${#numbers.sequence(1, rounded)}">
+													<i class="star fas fa-star voted"></i>
+													</i>
+													<i th:if = "${review.score} - ${rounded} > 0" class="star fas fa-star-half-alt voted"></i>
+													<i th:each="num : ${#numbers.sequence(1,emptyStar,1)}">
+													<i class="star fas fa-star"></i>
+													</i>
+													
+													<span class="pl-1" th:text="${review.score}+점"></span>
+												</span>
+												<!-- 별점 e -->
+											</div>
+										</div>
+										<div class="row pl-2 pr-2">
+											<p th:text="${review.body}">
+											</p>
+											<img src="assets/img/test.jpg">
+										</div>
+									</div>
+									<div class="btn_review_board_in_01">
+										<button type="button" class="text-md btn btn-md w-100 btn-style-01"> 
+											<span class="btn-inner--text">더보기</span>
+											<span class="btn-inner--icon">
+												<i class="fas fa-chevron-down pl-2"></i>
+											</span>
+										</button>
+									</div>
+									<div class="btn_review_board_in_02">
+										<button type="button" class="text-md btn btn-md w-100 btn-style-01"> 
+											<span class="btn-inner--text">숨기기</span>
+											<span class="btn-inner--icon">
+												<i class="fas fa-chevron-up pl-2"></i>
+											</span>
+										</button>
+									</div> 
+							 	  </div>
+
+							</div>
+							
+						</div>
+
+
+					</div>
+					<!-- 리뷰가 있을 경우 e -->
+					
+				</div>
+					
+      </div>
+			<!-- Page content E -->
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+      <!-- Footer S -->
+			<div th:replace="common/common-footer.html :: common-footer">
+			</div>
+      <!-- Footer E -->
+    </div>
+  </div>
+	
+	
+	<!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Page JS -->
+  <script src="/assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+  <!-- Product_view JS -->
+  <script src="/assets/js/product_view.js"></script>
+	<!-- KAKAO_APP KEY JS -->
+  
+	<!-- KAKAO_MAP JS -->
+	<script src="/assets/js/kakao_map.js"></script>
+
+</body>
+</html>

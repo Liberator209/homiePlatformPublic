@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<body class="application application-offset gnb_v2">
+	
+  <!-- Application container -->
+  <div class="container-fluid container-application">
+    <!-- Content -->
+    <div class="main-content position-relative">
+			
+			
+			<!-- NAV S -->
+			<nav th:replace="common/common-nav.html :: common-nav">
+			</nav>
+			<!-- NAV E -->
+    
+
+
+      <!-- Page content -->
+      <div class="page-content v2 masonry-container">
+        <div class="row">
+          <div class="col-lg-8">
+            <!-- 품종별 보기 슬라이드 메뉴 s -->
+            <div class="card item_type_select_box" data-filter="item_gr_type_01">
+              <div class="tit_text_gr">
+                찬바람 불때가 제맛!<br>
+                겨울 제철음식
+              </div>
+              <div class="swiper-js-container col-lg-12 px-4 pt-4">
+                <div class="swiper-container" data-swiper-items="4" data-swiper-sm-items="5" data-swiper-xl-items="5" data-swiper-space-between="0" data-swiper-sm-space-between="0" data-swiper-xl-space-between="0">
+                  <div class="swiper-wrapper masonry-filter-menu">
+                    <!--
+                      전체 : data-filter="*"
+                      감귤 : data-filter="item_gr_type_Citrus"
+                      애플망고 : data-filter="item_gr_type_AppleMango"
+                      한라봉 : data-filter="item_gr_type_HalLaBong"
+                      레드향 : data-filter="item_gr_type_RedHyang"
+                      천혜향 : data-filter="item_gr_type_CheonHyeHyang"
+                      황금향 : data-filter="item_gr_type_HwangGeumHyang"
+                      img size: 90 x 90
+                    -->
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link active" data-filter="*"><span>전체</span></a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link" data-filter="item_gr_type_Citrus"><span>감귤</span></a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link" data-filter="item_gr_type_AppleMango"><span>애플망고</span></a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link" data-filter="item_gr_type_HalLaBong"><span>한라봉</span></a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link" data-filter="item_gr_type_RedHyang"><span>레드향</span></a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link" data-filter="item_gr_type_CheonHyeHyang"><span>천혜향</span></a>
+                    </div>
+                    <div class="swiper-slide">
+                      <a href="#" class="nav-link" data-filter="item_gr_type_HwangGeumHyang"><span>황금향</span></a>
+                    </div>
+                  </div>
+                  <div class="swiper-button-next"><i class="fas fa-chevron-right"></i></div>
+                  <div class="swiper-button-prev"><i class="fas fa-chevron-left"></i></div>
+                </div>
+              </div>
+            </div>
+            <!-- 품종별 보기 슬라이드 메뉴 e -->
+            <!-- 검색/필터 영역 s -->
+            <div class="card">
+              <div class="card-header actions-toolbar border-0 py-3">
+                <div class="actions-search" id="actions-search">
+                  <div class="input-group input-group-merge input-group-flush">
+                    <input type="text" id = "keyword" class="form-control form-control-flush ml-4" placeholder="검색어를 입력해주세요.">
+                    <div class="input-group-append">
+                      <a style="cursor:pointer;" class="input-group-text bg-transparent" data-action="search-close" data-target="#actions-search"><i class="fas fa-times pr-2 text-lg"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="row justify-content-between align-items-center">  
+                  <div class="col-5">
+                    <h6 class="d-inline-block mb-0">검색된 상품 <span id = "search_count" class="h6 text-info mb-0 ml-1" th:text="${#lists.size(item)}"></span></h6>
+                  </div>                  
+                  <div class="col text-right">
+                    <div class="actions">
+                      <a href="#" class="action-item mr-2" data-action="search-open" data-target="#actions-search">
+                        <i class="fas fa-search"></i> <span class="pl-1 search_txt_menu">검색</span>
+                      </a>
+                      <div class="dropdown">
+                        <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-filter"></i> <span class="pl-1 search_txt_menu">필터</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right filter_menu_gr">
+                          <a id = "on_hit" class="dropdown-item" href="#">
+                            품절 임박 상품순
+                          </a>
+                          <a id = "price_ascending" class="dropdown-item" href="#">
+                            낮은 가격순
+                          </a>
+                          <a id = "price_descending" class="dropdown-item" href="#">
+                            높은 가격순
+                          </a>
+                          <a id = "review_count_descending" class="dropdown-item" href="#">
+                            리뷰 많은순
+                          </a>
+                          <a id = "review_score_descending" class="dropdown-item" href="#">
+                            별점순
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 검색/필터 영역 e -->
+            <!-- Live 보기 modal s -->
+            <div class="modal fade docs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content v_iframe">
+                  <div class="modal-header">
+                    <div class="modal-title d-flex align-items-center" id="modal-title-change-username">
+                      <div class="tip_live_tit">
+                        <div class="tip_live_icon_pop">LIVE</div> 
+                      </div>
+                      <div>
+                        <h6  id="modal_title" class="mb-0"></h6>
+                      </div>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <video controls autoplay muted playsinline id="video-player" class="p-3"></video>
+                </div>
+              </div>
+            </div>
+            <!-- Live 보기 modal e -->
+            <!-- 수확일정 보기 modal s -->
+            <div class="modal fade docs-harvesting_day-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h6 id="modal_title" class="mb-0">
+                      <div class="icon icon-sm icon-shape icon-success rounded-circle shadow mr-1">
+                        <i class="fas fa-seedling"></i>
+                      </div> 
+                      정직한 정봉준 농장
+                    </h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body py-3">
+                    <!-- 수확 일정 상세 s -->
+                    <div class="pop_harvesting_info_gr">
+                      <div class="info_tit_gr">수확(구매) : <span>3일</span> 남음</div>
+                      <div class="swiper-js-container wt-box">
+                        <div class="swiper-container" data-swiper-items="3" data-swiper-sm-items="5" data-swiper-xl-items="5">
+                          <div class="swiper-wrapper">
+                            <!--01 -->
+                            <div class="swiper-slide in_box end_day">
+                              <div class="wt_img_box img_01"></div>
+                              <span class="day">12/01(월)</span>
+                              <span class="harvesting_info_text">마감</span>
+                            </div>
+                            <!--02 -->
+                            <div class="swiper-slide in_box end_day">
+                              <div class="wt_img_box img_03"></div>
+                              <span class="day">12/02(화)</span>
+                              <span class="harvesting_info_text">마감</span>
+                            </div>
+                            <!--03 -->
+                            <div class="swiper-slide in_box end_day cancel_day">
+                              <div class="wt_img_box img_15"></div>
+                              <span class="day">12/03(수)</span>
+                              <span class="harvesting_info_text">취소</span>
+                            </div>
+                            <!--04 -->
+                            <div class="swiper-slide in_box to_day">
+                              <div class="wt_img_box img_07"></div>
+                              <span class="day">12/04(목)</span>
+                              <span class="harvesting_info_text">수확</span>
+                            </div>
+                            <!--05 -->
+                            <div class="swiper-slide in_box">
+                              <div class="wt_img_box img_05"></div>
+                              <span class="day">12/05(금)</span>
+                              <span class="harvesting_info_text">수확</span>
+                            </div>
+                            <!--06 -->
+                            <div class="swiper-slide in_box">
+                              <div class="wt_img_box img_03"></div>
+                              <span class="day">12/06(토)</span>
+                              <span class="harvesting_info_text">수확</span>
+                            </div>
+                            <!--07 -->
+                            <div class="swiper-slide in_box">
+                              <div class="wt_img_box img_03"></div>
+                              <span class="day">12/07(일)</span>
+                              <span class="harvesting_info_text">수확</span>
+                            </div>
+                          </div>
+                          <!-- Add Arrows -->
+                          <div class="swiper-button-next"><i class="fas fa-chevron-right"></i></div>
+                          <div class="swiper-button-prev"><i class="fas fa-chevron-left"></i></div>
+                        </div>
+                      </div>
+                      <div class="info_text_gr">
+                        <ul>
+                          <li>수확 시간은 오전 10시 이후 순차적으로 진행됩니다.</li>
+                          <li>자연재해 또는 농장 사정으로 일정이 변경될 수 있습니다.</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- 수확 일정 상세 e -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 수확일정 보기 modal e -->
+          </div>
+          <div class="col-lg-4">
+            <!-- chart s -->
+            <div class="card">
+              <div class="card-body card-body-chart">
+                <div class="chart_series_gr">
+                  <div class="tit_txt_style_01">현재 평균가 안내 <span> 거래단위 : 100g당</span></div>
+                  <div class="tit_series_nb_01"><span>호미상품 : </span><span class="today_series_nb_01"><strong>150</strong>원 <span></span></span></div>
+                  <div class="tit_series_nb_02"><span>오프라인 대형마트 : </span><span class="today_series_nb_02"><strong>200</strong>원 <span></span></span></div>
+                </div>
+                <div id="chart_01"></div>
+                <script src="/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+                <!-- 안내 s -->
+                <div class="info_txt_gr ml-4 mb-4">
+                  <a class="btn btn_info_style_01" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-info-circle pr-1"></i> 현재 가격 정보제공 안내보기
+                  </a>                  
+                  <div class="collapse" id="collapseExample">
+                  <div class="info_txt_in">
+                    <p>본 자료는 출처(서울시농수산식품공사) 자료 가공 및 업로드 문제로 실제 시장 가격과 차이가 발생할 수 있습니다.</p>
+                    <p>출하자, 산지 및 품종에 따라 실제 거래가격과 차이가 날 수 있으며, 일부 품목의 경우 계절 및 품종별 요인에 의해 실제 중량과 차이가 날 수 있습니다.</p>
+                  </div>
+                </div>
+                <!-- 안내 e -->
+                </div>
+              </div>
+            </div>
+            <!-- chart e -->
+          </div>
+        </div>      
+
+        <!-- 
+        item 상태 
+        > product_list_item + premium_item : 프리미엄
+        > product_list_item + hit_item : 품절임박
+        > product_list_item + re_item : 최근구매
+        > product_list_item + sold_out + sold_out_type_01 : 마감(수확소진)
+        > product_list_item + sold_out + sold_out_type_02 : 마감(우천취소)
+        -->
+
+        <div class="masonry-container">
+          <div class="row masonry product_lists v2">
+            <div class="masonry-item col-lg-3 col-md-6 product_list_item item_gr_type_01" th:each="item : ${item}" th:attr="data-price= ${item.option}, data-item_no = ${item.id}" th:classappend="(${item.remain} / ${item.quantity} <= 0.3 and ${item.remain} / ${item.quantity} != 0 ? 'hit_item ' +  ${item.level} : '') + (${item.remain} == 0 ? 'sold_out sold_out_type_02 ' : ' ' +  ${item.level})">
+              <div class="card in_box_item_gr">
+                <div class="card-body pt-0">
+                  <!-- main item img gr s -->
+                  <div class="item_img_box_gr">
+                    <div class="sold_out_box_gr"><div></div></div>
+                    <a data-toggle="modal" data-target=".docs-harvesting_day-modal" href="#">
+                      <div class="harvesting_info_gr">
+                        <span class="tit"><i class="far fa-calendar-alt"></i> 수확(구매) : </span>
+                        <strong class="day">3일 남음</strong>
+                        <i class="more fas fa-chevron-right"></i>
+                      </div>
+                    </a>
+                    <div class="ttip_m_01 ttip_list_gr">
+	                    <ul class="list-inline mb-0 mt-1">
+                        <li class="list-inline-item premium_ttip">
+	                        <span class="badge badge-pill badge-soft-premium">프리미엄</span>
+	                      </li>
+	                      <li th:if="${item.remain} / ${item.quantity} <= 0.3 and ${item.remain} / ${item.quantity} > 0" class="list-inline-item hit_ttip">
+	                        <span class="badge badge-pill badge-soft-danger">품절임박</span>
+	                      </li>
+	                      <li class="list-inline-item re_ttip mr-2">
+	                        <span class="badge badge-pill badge-soft-info">최근구매</span>
+	                      </li>
+	                    </ul>
+	                  </div>
+                    <img th:src="@{https://homie.afarms.ai/assets/img/} + ${item.id} + @{/theme/1.jpg}" class="main_img" />
+                    <img src="/assets/img/v_img/none_img.gif" class="none_img" />
+                  </div>
+                  <!-- main item img gr e -->
+                  <!-- farms info s -->
+                  <div class="item_farms_info_gr">
+                    <div class="row">
+                      <div class="col-9 pl-0">
+                        <h5 class="h5 pt-4 pl-0 mb-1 product_item_tit" th:text="${item.owner} + '농장'"></h5>
+                        <span class="d-block w-100 farms_map_text" th:text="${item.farm[0].addr}"></span>
+                        <!-- 별점 s -->
+	                      <div class="text-sm" th:each="reviews : ${review}">
+                          <div th:if="${#lists.size(reviews.reviewList) == 0} and ${reviews.item_no} == ${item.id}">
+                            <i class="reviews" th:attr="data-review-scores= 0, data-review-count = 0">
+                              <div class="no_data_gr"><p class="mb-0">등록된 리뷰가 없습니다.</p></div>
+                            </i>
+                          </div>
+                          <div th:if="${#lists.size(reviews.reviewList) != 0}">
+                            <span class="static-rating static-rating d-block"  th:each="review : ${reviews.reviewList}" th:if="${reviews.item_no} == ${item.id}" th:with="total = ${#aggregates.sum(reviews.reviewList.![score])}, size = ${#lists.size(reviews.reviewList)}" >
+                              <i class="reviews" th:if="${reviewStat.last}" th:attr="data-review-scores=${#numbers.formatDecimal(total / size,0,1)}, data-review-count = ${size}" th:with="average = ${#numbers.formatDecimal(total / size ,0,0)} > ${total} / ${size} ? ${#numbers.formatDecimal(total / size,0,0)}-1 : ${#numbers.formatDecimal(total / size ,0,0)} , emptyStar= ${total} / ${size} > ${average} ? 5-${average}-1 : 5-${average}">	
+                                <i th:if="${reviewStat.last}" th:each = "number : ${#numbers.sequence(1, average)}">
+                                  <i class="star fas fa-star voted"></i>
+                                </i>          
+                                <i th:if = "${total} / ${size} - ${average} > 0" class="star fas fa-star-half-alt voted"></i>
+                                <i th:each="num : ${#numbers.sequence(1,emptyStar,1)}">
+                                  <i class="star fas fa-star"></i>
+                                </i>
+                                <span class="pl-1" th:text=" ${#numbers.formatDecimal(total / size,0,1)} + '점 (' + ${size} + '건)'"></span>
+                              </i>
+                            </span>
+                          </div>
+                        </div>
+                        <!-- 별점 e -->
+                      </div>
+                      <div class="col-3 p-0 pt-4">
+                        <img th:src="@{https://homie.afarms.ai/assets/img/} + ${item.id} + @{/theme/profile.jpg}" class="profile_img">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- farms info e -->
+                  <!-- item s -->
+                  <div class="pd_item_mg_top_gr">
+                    <!-- 01 s -->
+                    <div class="row sub_box d-flex justify-content-between" th:each="option : ${item.option}">
+                      <div class="text_style_08" th:text="${option.option_name}"></div>
+                      <div class="w-100 d-flex justify-content-between" th:inline="text">
+                        <span class="float-left mt-1" th:with="result=${item.remain / option.option_unit}"><i th:text="'오늘 수확량 : ' + ${result}"></i>개 남음</span>
+                        <strong class="text_style_07">[[${#numbers.formatInteger(option.option_price, 3, 'COMMA')}]]원</strong>
+                      </div>
+                    </div>
+                    <!-- 02 e -->
+                    <div class="btn_gr">
+                      <div class="d-flex justify-content-between">
+                        <button class="text-md btn btn-secondary btn-xs btn-live-01 hover-shadow-lg" th:onclick="toModal([[${item.owner}]], [[${item.farm[0].name}]], [[${item.farm[0].rtsp}]]);" data-toggle="modal" data-target=".docs-example-modal-sm">LIVE 보기</button>
+	                      <button class="text-md btn btn-secondary btn-xs btn-pdview-01 hover-shadow-lg" th:onclick="'location.href=\''+ @{product_view(item_no=${item.id})} + '\''" >구매하기</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- item e -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 상품 더보기 버튼 영역 s -->
+          <div class="text-center list_btn_load_gr">
+            <button id="product_list_morebtn" class="mt-4 btn btn-md btn-neutral rounded-pill shadow">상품 더보기 <span class="fas fa-plus"></span></button>
+          </div>
+          <!-- 상품 더보기 버튼 영역 e -->
+        </div>
+      </div>  
+      
+      
+
+			<!-- Footer S -->
+			<div th:replace="common/common-footer.html :: common-footer">
+			</div>
+			<!-- Footer E -->
+    </div>
+  </div>
+	
+	
+	<!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Page JS -->
+  <script src="/assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+  <!-- RTSP JS -->
+  <script src="/assets/js/rtsp.js"></script>
+   <!-- filter JS -->
+  <script src="/assets/js/filter.js"></script>
+  <!-- PRODUCT_LIST_MOREBTN JS -->
+  <script src="/assets/js/product_list_morebtn.js"></script>
+  <!-- graph JS -->
+  <script src="/assets/js/graph_v2.js"></script>
+
+  <!--  v2 추가 -->
+  <script src="/assets/libs/isotope-layout/dist/isotope.pkgd.min.js"></script>
+  <script src="/assets/libs/swiper/dist/js/swiper.min.js"></script>
+  <link rel="stylesheet" href="/assets/libs/swiper/dist/css/swiper.min.css">
+
+
+</body>
+</html>

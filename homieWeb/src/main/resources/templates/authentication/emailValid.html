@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<body class="application application-offset common_fill_box_gr" sec:authorize="isAnonymous()">
+
+	
+  <!-- Application container -->
+  <div class="container-fluid container-application">
+    <!-- Content -->
+    <div class="main-content position-relative">
+      
+    
+			
+			
+			
+			
+			<!-- NAV S -->
+			<nav th:replace="common/common-nav.html :: common-nav">
+			</nav>
+			<!-- NAV E -->
+			
+
+			
+      
+      
+      
+			
+			
+			
+			
+			
+			
+			
+			
+			
+      
+<!-- Page content S -->
+<div class="page-content">
+  
+  <div class="common-box-in">
+
+    <!-- 인증 완료 s -->
+    <div class="text_gr" th:if="${result} == 1">
+      <img class="img_gr" src="/assets/img/v_img/img_01.png">
+      <h3><strong></strong>이메일 인증이 완료됐습니다!</h3>
+      <p>호미는 신선한 먹거리와 생산량 자율 조절로 인한 농업인과 소비자의 상생을 지향합니다.</p>
+      <a href="product_list" class="btn btn-outline-success rounded-pill my-3 text-lg">농가 작물 구매하기</a>
+    </div>
+    <!-- 가입완료 e -->
+
+
+    <!-- 에러공통 s -->
+    <div class="text_gr" th:if="${result} == 0">
+      <img class="img_gr" src="/assets/img/v_img/img_02.png">
+      <h3>이메일 인증 실패!</h3>
+      <p>유효하지 않은 인증코드 입니다.<br></p>
+      <a href="javascript:history.back()" class="btn btn-outline-success rounded-pill my-3 text-lg">돌아가기</a>
+    </div>
+    <!-- 에러공통 e -->
+    
+    
+  </div>
+  
+</div>
+<!-- Page content E -->
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+       <!-- Footer S -->
+       <div th:replace="common/common-footer.html :: common-footer">
+       </div>
+       <!-- Footer E -->
+    </div>
+  </div>
+	
+	
+	<!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Page JS -->
+  <script src="/assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+	
+	
+</body>
+</html>

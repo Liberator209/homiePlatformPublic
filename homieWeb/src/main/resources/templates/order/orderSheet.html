@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="common/common-head.html :: common-head"></head>
+
+<body class="application application-offset">
+	
+
+	
+	
+	
+	
+	
+    
+	
+	
+	
+	
+	
+	
+	
+  <!-- Application container -->
+  <div class="container-fluid container-application">
+    <!-- Content -->
+    <div class="main-content position-relative">
+      
+    
+			
+			
+			
+			
+        		<!-- NAV S -->
+                <nav th:replace="common/common-nav.html :: common-nav">
+                </nav>
+                <!-- NAV E -->
+			
+
+			
+      
+      
+      
+			
+			
+			
+			
+			
+			
+			
+			
+			
+      
+<!-- Page content S -->
+<div class="page-content">
+    <div class="row orderSheet_gr">
+        <!-- 왼쪽 s -->
+        <div class="col-lg-7">
+            <!-- 배송지 s -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="h4 tit-01">배송지 입력</h5>
+                    <div class="row">
+                        <div class="col-lg-3 sub_txt">수령인</div>
+                        <div class="col-lg-9">
+                            <input type="text" title="수령인 이름 입력" placeholder="수령인 이름" class="" id="rec_name" th:value="${user.addr[0].rec_name}">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">연락처</div>
+                        <div class="col-lg-9 d-flex">
+                            <input type="tel" title="휴대폰 첫째자리 입력" placeholder="첫째자리" class="text-center" id="rec_phone1" th:value="${#strings.substring(user.addr[0].rec_phone,0,3)}" >
+                            <span class="mr-2 pt-1 text-lg">-</span>
+                            <input type="tel" title="휴대폰 둘째자리 입력" placeholder="둘째자리" class="text-center" id="rec_phone2" th:value="${#strings.substring(user.addr[0].rec_phone,4,8)}" >
+                            <span class="mr-2 pt-1 text-lg">-</span>
+                            <input type="tel" title="휴대폰 셋째자리 입력" placeholder="셋째자리" class="text-center" id="rec_phone3" th:value="${#strings.substring(user.addr[0].rec_phone,9,13)}">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">주소</div>
+
+                        <div class="input-group input-group-merge col-lg-9">                      
+                            <input type="text" class="form-control" id="zip" name="zip" onclick="findAddr()" placeholder="우편번호" /readonly style= "width : 20%;" th:value="${#strings.substring(user.addr[0].addr,0,5)}">
+                            <button type="button" id = "zipbtn" class="btn btn_style_01 w-30 mr-0" onclick="findAddr()">
+                                <span class="btn-inner--text">주소검색</span>
+                            </button>    
+                            <div class="input-group input-group-merge mt-2">
+                                <input type="email" class="form-control" id="addr" name="address" onclick="findAddr()" placeholder="주소" th:value="${#strings.substring(user.addr[0].addr, 5, #strings.length(user.addr[0].addr))}" /readonly >
+                            </div>
+                            <div class="input-group input-group-merge">    
+                                <input type="text" class="form-control mt-2 pl-3" id="addr_spec" name="address_detail" placeholder="상세 주소를 입력하세요." th:value="${user.addr[0].addr_spec}">
+                           </div>
+                           <div class="input-group input-group-merge">
+                            <input type="text" id="ship_request" class="form-control mt-2 pl-3" placeholder="배송시 요청사항(선택사항)">
+                           </div>
+                           <p class="errorMessage"></p>                     
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- 배송지 e -->
+            <!-- 주문자 s -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="h4 tit-01">주문자 정보</h5>
+                    <div class="row">
+                        <div class="col-lg-3 sub_txt">주문자</div>
+                        <div class="col-lg-9">
+                            <input type="text" id="sender_name" title="주문자 이름 입력" placeholder="주문자 이름" class="" th:value="${user.name}">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">연락처</div>
+                        <div class="col-lg-9 d-flex">
+                            <input type="tel" id = "sender_phone1" title="휴대폰 첫째자리 입력" placeholder="첫째자리" class="text-center" th:value="${#strings.substring(user.phone,0,3)}">
+                            <span class="mr-2 pt-1 text-lg">-</span>
+                            <input type="tel" id = "sender_phone2" title="휴대폰 둘째자리 입력" placeholder="둘째자리" class="text-center" th:value="${#strings.substring(user.phone,4,8)}">
+                            <span class="mr-2 pt-1 text-lg">-</span>
+                            <input type="tel" id = "sender_phone3" title="휴대폰 셋째자리 입력" placeholder="셋째자리" class="text-center" th:value="${#strings.substring(user.phone,9,13)}">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">이메일</div>
+                        <div class="col-lg-9 d-flex">
+                            <input type="text" id = "sender_email1" title="이메일 아이디 입력" class="" th:value="${#strings.substring(user.id,0,#strings.indexOf(user.id,'@'))}">
+                            <span class="mr-2 pt-1 text-lg">@</span>
+                            <input type="text" id = "sender_email2" title="이메일 뒷자리 입력" class="" th:value="${#strings.substring(user.id,#strings.indexOf(user.id,'@')+1, #strings.length(user.id))}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 주문자 e -->
+        </div>	
+        <!-- 왼쪽 e -->
+        <!-- 오른쪽 s -->
+        <div class="col-lg-5">
+            <!-- 상품정보 s -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="h4 tit-01">주문상품 안내</h5>
+                    <div class="card-body row pt-0 px-2 pb-1">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <h5 class="h5 pd_tit" th:text = "${item_info.owner} + '농장'"></h5>
+                                <span class="d-block w-100" th:text = "${item_info.farm[0].addr}"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 pd_item_mg_top_gr">
+                            <div class="row sub_box d-flex justify-content-between" id= "option" th:each = "options : ${option.selected}" th:attr = 'data-total = ${#aggregates.sum(option.selected.![option_price*option_amount])}'>
+                            <script th:inline="javascript">
+							    var option = /*[[${option.selected}]]*/ [];
+							    var user = /*[[${user}]]*/ [];
+							    var item = /*[[${item_info}]]*/ [];
+							</script>
+                                <div class="" th:text="${options.option_name}"></div>
+                                <div class="text-right"><span th:text="${options.option_amount} + '개'"></span><strong th:text="${#numbers.formatInteger(options.option_price * options.option_amount,3,'COMMA')} + '원'"></strong></div>
+                            </div>
+                            <!-- 배송비 s -->
+                            <div class="row sub_box d-flex justify-content-between">
+                                <div class="">배송비</div>
+                                <div class="text-right"><span>택배</span> 3,000원</div>
+                            </div>
+                            <!-- 배송비 e -->
+                            <!-- 할인(이벤트/쿠폰적용) s -->
+                            <div class="row sub_box d-flex justify-content-between event_mmm">
+                                <div class="">할인</div>
+                                
+                                <div class="text-right">
+	                                <span>오픈 이벤트(배송비 무료)</span>-3,000원
+	                                <br><span th:if="${user.membership} == true">에이팜스 임직원 할인</span><strong th:if="${user.membership} == true" th:text="${'-' + #numbers.formatInteger(4000 * #aggregates.sum(option.selected.![option_amount]),3,'COMMA') + '원'}"></strong>
+                                </div>
+                                
+                            </div>
+                            <!-- 할인(이벤트/쿠폰적용) e -->
+                            <!-- total s -->
+                            <div class="row sub_box d-flex justify-content-between total_mmmm">
+                                <div class="">총 수량/가격</div>
+                                <div class="text-right">
+                                	<span th:if="${user.membership} == false" th:text="${#aggregates.sum(option.selected.![option_amount])}+'개'"></span><strong th:if="${user.membership} == false" th:text="${#numbers.formatInteger(#aggregates.sum(option.selected.![option_price*option_amount]),3,'COMMA')}+'원'"></strong>
+                                	<span th:if="${user.membership} == true" th:text="${#aggregates.sum(option.selected.![option_amount])}+'개'"></span><strong th:if="${user.membership} == true" th:text="${#numbers.formatInteger(#aggregates.sum(option.selected.![option_price*option_amount]) - 4000 * #aggregates.sum(option.selected.![option_amount]),3,'COMMA')}+'원'"></strong>
+                                	</div>
+                            </div>
+                            <!-- total e -->
+                        </div>
+                    </div>    
+                </div>
+            </div>
+            <!-- 상품정보 e -->
+            <!-- 결제수단 s -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="h4 tit-01">결제수단 선택</h5>
+                    <div class="payment_box_gr">
+                        <!-- 카드결제(신용/체크) s -->
+                        <div class="payment_box_01">
+                            <div class="tit">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="paymentType1" name="paymentType" class="custom-control-input">
+                                    <label class="custom-control-label w-100" for="paymentType1"><span>카드결제(신용/체크)</span></label>
+                                    <!-- sub s -->
+									<!--
+                                    <div class="payment_box_sub">
+                                        <div class="row">
+                                            <div class="col-2"></div>
+                                            <div class="col-10 text-right mt-2">
+                                                <div class="custom-control custom-radio d-inline-block mr-3 mb-2">
+                                                    <input type="radio" id="card1" name="cardType" class="custom-control-input" checked="checked">
+                                                    <label class="custom-control-label" for="card1"><span>개인카드</span></label>
+                                                </div>
+                                                <div class="custom-control custom-radio d-inline-block">
+                                                    <input type="radio" id="card2" name="cardType" class="custom-control-input">
+                                                    <label class="custom-control-label" for="card2"><span>법인카드</span></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-right">
+                                            <select title="카드종류" class="custom-select custom-select-sm">
+                                                <option value="">카드선택</option>
+                                                <option value="C3">국민</option>
+                                                <option value="C1">비씨</option>
+                                                <option value="C0">신한</option>
+                                                <option value="CH">현대</option>
+                                                <option value="C7">삼성</option>
+                                                <option value="C5">롯데</option>
+                                                <option value="CA">외환</option>
+                                                <option value="C4">NH</option>
+                                                <option value="CF">하나</option>
+                                                <option value="CB">우리</option>
+                                                <option value="C2">광주</option>
+                                                <option value="C8">수협</option>
+                                                <option value="C9">씨티</option>
+                                                <option value="CC">전북</option>
+                                                <option value="CD">제주</option>
+                                                <option value="CP">카카오뱅크</option>
+                                                <option value="CQ">케이뱅크</option>
+                                            </select>
+                                            -->
+                                            <!--
+                                            <select title="할부기간" class="custom-select custom-select-sm my-2">
+                                                <option class="" value="">할부기간</option>
+                                                <option value="01">일시불</option>
+                                                <option value="02">2개월</option>
+                                                <option value="03">3개월</option>
+                                                <option value="04">4개월</option>
+                                                <option value="05">5개월</option>
+                                                <option value="06">6개월</option>
+                                                <option value="07">7개월</option>
+                                                <option value="08">8개월</option>
+                                                <option value="09">9개월</option>
+                                                <option value="10">10개월</option>
+                                                <option value="11">11개월</option>
+                                                <option value="12">12개월</option>
+                                            </select>
+                                        </div>
+                                                                        
+                                    </div>
+                                    -->
+                                    <!-- sub e -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 카드결제(신용/체크) e -->
+                        <!-- 계좌이체(무통장) s -->
+                        <div class="payment_box_02">
+                            <div class="tit">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="paymentType2" name="paymentType" class="custom-control-input">
+                                    <label class="custom-control-label w-100" for="paymentType2"><span>실시간 계좌이체</span></label>
+                                    <!-- sub s -->
+                                    <!--
+                                    <div class="payment_box_sub">
+                                        <select class="custom-select custom-select-sm my-2">
+                                            <option class="" value="">입금은행 선택</option>
+                                            <option value="011">농협</option>
+                                            <option value="004">국민은행</option>
+                                            <option value="088">신한은행</option>
+                                            <option value="020">우리은행</option>
+                                            <option value="003">기업은행</option>
+                                            <option value="081">하나은행</option>
+                                            <option value="031">대구은행</option>
+                                            <option value="032">부산은행</option>
+                                            <option value="071">우체국</option>
+                                            <option value="023">SC제일은행</option>
+                                            <option value="034">광주은행</option>
+                                            <option value="039">경남은행</option>
+                                            <option value="007">수협</option>
+                                            <option value="089">케이뱅크</option>
+                                        </select>
+                                        <div class="text-sm text-color-01"><i class="fas fa-exclamation-circle pr-1"></i>1시간 내 미입금 시 자동 취소됩니다.</div>
+                                    </div>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                        <!-- 계좌이체(무통장) e -->
+                        
+                    </div>
+                                            <!-- 
+                        <div class="payment_box_02">
+                            <div class="tit">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" id="paymentType3" name="paymentType" class="custom-control-input">
+                                    <label class="custom-control-label w-100" for="paymentType3"><span>가상계좌(무통장입금)</span></label>
+                            </div>
+                        </div>
+                         
+                    </div>    
+ 					 -->
+                
+                    <!-- 개인정보고지 s -->
+                    <div class="info_txt_gr mb-3">
+                        <a class="btn btn_info_style_01 collapsed w-100 text-left" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fas fa-info-circle pr-1"></i> 개인정보 제3자 제공고지 보기
+                        </a>                  
+                        <div class="collapse" id="collapseExample">
+                            <div class="info_txt_in m-0">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="mt-3" summary="개인인정보 제3자 제공 정보를 알려드립니다.">
+                                    <colgroup>
+                                        <col style="width:30%">
+                                        <col style="width:auto">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="col">제공 받는자</th>
+                                            <td class="imp_txt"><strong class="ng-binding">(주)롯데택배</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">목적</th>
+                                            <td class="imp_txt"><strong>상품 및 경품(서비스) 배송(전송), 제품 설치, 반품, 환불, 고객상담 등 정보통신서비스제공계약 및 전자상거래(통신판매)계약의 이행을 위해 필요한 업무의 처리</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">항목</th>
+                                            <td class="ng-binding">ID, 성명, 전화번호, 휴대전화번호, 배송지 주소, 이메일주소(선택시), 통관고유부호(선택시), 생년월일(선택시)</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">보유 기간</th> 
+                                            <td class="imp_txt"><strong>구매 서비스 종료 후 1개월</strong></td> 
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 개인정보고지 e -->
+
+                    <!-- 결제버튼 s -->
+                    <button type="button" class="btn btn-danger w-100 text-lg mt-2"  data-toggle="modal" data-target=".docs-orderSheet-modal-sm">결제하기</button>
+                
+                </div>
+            </div>
+            <!-- 결제수단 e -->
+
+
+
+
+            
+
+            <!-- 결제 진행 안내 팝업 modal s -->
+            <div class="modal fade docs-orderSheet-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"> <!-- 화면 가운데 정렬 modal-dialog-centered -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <div class="modal-title d-flex align-items-center" id="modal-title-change-username">
+                            <div>
+                                <div class="icon icon-sm icon-shape icon-success rounded-circle shadow mr-2">
+                                <i class="fas fa-exclamation"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">결제 진행 안내사항</h6>
+                            </div>
+                        </div>
+                        <button type="button" class="close pt-3 pr-4" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                        <div class="modal-body word-break-keep">
+                            <p style="color:orangered; text-decoration:underline; font-weight:bold;">주문하신 상품은 결제 후 바로 농가에서 수확이 이루어집니다.
+<br>따라서 단순 변심으로 인한 취소나 변경이 힘들다는 점 유의 부탁드립니다. </p>상품 하자 및 배송지 변경에 의한 문의는 고객센터로 문의해 주세요.
+                            <br>02-312-0117 / afarms@afarms.ai
+                            <div class="orderSheet_img_01">
+                                <img alt="" src="/assets/img/v_img/img_01.png">
+                            </div>
+                            <button id = "pay" type="button" class="btn btn-success w-100 text-lg mt-3" data-dismiss="modal" aria-label="Close">진행하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 결제 진행 안내 팝업 modal e -->
+
+            <!-- 결제버튼 e -->
+        </div>
+        <!-- 오른쪽 e -->
+    </div>
+</div>
+<!-- Page content E -->
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+       <!-- Footer S -->
+       <div th:replace="common/common-footer.html :: common-footer">
+       </div>
+       <!-- Footer E -->
+
+       
+    </div>
+  </div>
+	
+	
+	<!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Page JS -->
+  <script src="/assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+  <!-- KAKAO ADDR API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <!-- payment JS -->
+  <script src="/assets/js/payment.js"></script>
+  <script src="https://js.tosspayments.com/v1"></script>
+  <script src="/assets/js/register.js"></script>
+	
+</body>
+</html>

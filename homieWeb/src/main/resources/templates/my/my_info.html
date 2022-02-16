@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="common/common-head.html :: common-head">
+</head>
+<link rel="stylesheet" href="/assets/css/changeInfo.css" id="stylesheet">
+<body class="application application-offset">
+	
+
+	
+	
+	
+	
+	
+    
+	
+	
+	
+	
+	
+	
+	
+  <!-- Application container -->
+  <div class="container-fluid container-application">
+    <!-- Content -->
+    <div class="main-content position-relative">
+      
+    
+			
+			
+		<!-- NAV S -->
+        <nav th:replace="common/common-nav.html :: common-nav">
+        </nav>
+        <!-- NAV E -->
+                        
+			
+
+			
+
+			
+      
+      
+      
+			
+			
+			
+			
+			
+			
+			
+			
+			
+      
+<!-- Page content S -->
+<div class="page-content">
+<form role="form" id="modify-form" action="/myInfo" method="POST">
+    <div class="row orderSheet_gr">
+        <div class="col-lg-12 page_tit_box_gr">
+            <h3>회원 정보 수정</h3>
+        </div>
+
+        <!-- 왼쪽 s -->
+        <div class="col-lg-7">
+            
+
+            <!-- 배송지 s -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="h4 tit-01">배송지</h5>
+                    <div class="row">
+                        <div class="col-lg-3 sub_txt">수령인</div>
+                        <div class="col-lg-9">
+                            <input type="text" title="수령인 이름 입력" placeholder="주문자 이름" class="" th:value="${user.addr[0].rec_name}" name = "rec_name">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">연락처</div>
+                        <div class="col-lg-9 d-flex">
+							<input type="tel" class="form-control" id="rec-input-phone" name="rec_phone" placeholder="휴대폰 번호 입력" maxlength="13" th:value="${user.addr[0].rec_phone}">
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">주소</div>
+
+                        <div class="input-group input-group-merge col-lg-9">                      
+                            <input type="text" class="form-control" id="zip" name="ship_zip" onclick="findAddr()" placeholder="우편번호" /readonly style= "width : 20%;" th:value="${#strings.substring(user.addr[0].addr,0,5)}">
+                            <button type="button" id = "zipbtn" class="btn btn_style_01 w-30 mr-0" onclick="findAddr()">
+                                <span class="btn-inner--text">주소검색</span>
+                            </button>    
+                            <div class="input-group input-group-merge mt-2">
+                                <input type="email" class="form-control" id="addr" name="ship_addr" onclick="findAddr()" placeholder="주소" th:value="${#strings.substring(user.addr[0].addr, 5, #strings.length(user.addr[0].addr))}" /readonly >
+                            </div>
+                            <p class="errorMessage"></p>
+                            <div class="input-group input-group-merge">    
+                                <input type="text" class="form-control mt-2 pl-3" id="ship_addr_spec" name="address_detail" placeholder="상세 주소를 입력하세요." th:value="${user.addr[0].addr_spec}">
+                           </div>
+                           <p class="errorMessage"></p>
+                           <div class="input-group input-group-merge">
+                            <input type="text" class="form-control mt-2 pl-3" placeholder="배송시 요청사항(선택사항)">
+                           </div>
+                           <p class="errorMessage"></p>                     
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- 배송지 e -->
+        </div>	
+        <!-- 왼쪽 e -->
+        <!-- 오른쪽 s -->
+        <div class="col-lg-5">
+            
+            <!-- 주문자 s -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="h4 tit-01">사용자 정보</h5>
+                    <div class="row">
+                        <div class="col-lg-3 sub_txt">아이디 (이메일)</div>
+                        <div class="col-lg-9 d-flex">
+                        	<input type="text" title="이메일 아이디" th:value="${user.id}" class="input-disabled" name = "id" hidden>
+                            <input type="text" title="이메일 아이디" th:value="${#strings.substring(user.id,0,#strings.indexOf(user.id,'@'))}" class="input-disabled" disabled >
+                            <span class="mr-2 pt-1 text-lg">@</span>
+                            <input type="text" title="이메일 뒷자리" th:value="${#strings.substring(user.id,#strings.indexOf(user.id,'@')+1, #strings.length(user.id))}" class="input-disabled" disabled>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">이름 (주문자)</div>
+                        <div class="col-lg-9">
+                            <input type="text" title="주문자 이름 입력" placeholder="주문자 이름" class="" th:value="${user.name}" id ='input-name' name='name'>
+                        </div>
+                        <p class="errorMessage"></p>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">연락처</div>
+                        <div class="col-lg-9 d-flex">
+							<input type="tel" class="form-control" id="input-phone" name="phone" placeholder="'-' 빼고 입력" maxlength="13" th:value="${user.phone}">
+                        </div>
+                        <p class="errorMessage"></p>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">현재 비밀번호</div>
+                        <div class="col-lg-9">
+                            <input type="password" id = "current-password" name='pw' title="비밀번호" placeholder="현재 비밀번호" class="">
+                        </div>
+                        <p class="errorMessage"></p>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">변경하실 번호</div>
+                        <div class="col-lg-9">
+                            <input type="password" id = "input-password" title="비밀번호" placeholder="변경하실 번호" class="" name="ch_pw">
+                        </div>
+                        <p class="errorMessage"></p>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 sub_txt">비밀번호 확인</div>
+                        <div class="col-lg-9">
+                            <input type="password" id = "input-password-confirm" title="비밀번호 확인" placeholder="현재 또는 변경하실 번호 입력" class="">
+                        </div>
+                        <p class="errorMessage"></p>
+                    </div>
+                </div>
+            </div>
+            <!-- 주문자 e -->
+
+            <!-- 안내사항 s -->
+            <div class="card order_complete_info">
+                <div class="card-body">
+                    <h5 class="h4 tit-01 mb-3">정보수정 안내사항</h5>
+                    등록된 내용으로 주문시 자동으로 입력되며, 상품은 결제 후 바로 농가에서 수확이 이루어집니다.
+                    따라서 정보 수정 또는 단순 변심으로 인한 취소는 불가합니다. 주문 후 정보변경에 의한 문의는 고객센터로 문의 바랍니다.<br>
+                    <div class="row mt-3">
+                        <div class="col-lg-6">02-312-0117 / afarms@afarms.ai</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 안내사항 e -->
+
+            <!-- 완료버튼 s -->
+            <div class="d-flex align-items-center justify-content-between">
+                <button type="button" class="btn btn-outline-success w-100 text-lg" data-toggle="modal" data-target=".docs-orderSheet-modal-sm" onclick="location.href='/'">돌아가기</button>
+                <button type="submit" id = "register"  class="btn btn-success w-100 text-lg"  data-toggle="modal" data-target=".docs-orderSheet-modal-sm">저장하기</button>
+            </div>
+            <!-- 완료버튼 e -->
+
+
+
+        </div>
+        <!-- 오른쪽 e -->
+    </div>
+    </form>
+</div>
+<!-- Page content E -->
+			
+			
+			
+
+			
+       <!-- Footer S -->
+       <div th:replace="common/common-footer.html :: common-footer">
+       </div>
+       <!-- Footer E -->
+
+
+
+    </div>
+  </div>
+	
+	
+	<!-- Scripts -->
+  <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+  <script src="/assets/js/purpose.core.js"></script>
+  <!-- Page JS -->
+  <script src="/assets/libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js"></script>
+  <!-- Purpose JS -->
+  <script src="/assets/js/purpose.js"></script>
+  <!-- Demo JS - remove it when starting your project -->
+  <script src="/assets/js/demo.js"></script>
+  <!-- KAKAO ADDR API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="/assets/js/userChange.js"></script>
+	
+</body>
+</html>
